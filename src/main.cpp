@@ -3,6 +3,8 @@
 
 // 1st Party - My Data Structures
 #include "MyStack.h"
+#include "MyHashSet.h"
+#include "MyHashTable.h"
 
 // 1st Party - LeetCode Stuff
 #include "TwoSum.h"
@@ -36,6 +38,35 @@ int main()
 	numberStack.Push(5);
 	numberStack.Push(6);
 	std::cout << numberStack.Pop() << std::endl;
+
+	// MyHashSet test
+	MyHashSet<int> numbersHash(100);
+	numbersHash.Insert(14);
+	numbersHash.Insert(12);
+	numbersHash.Insert(29);
+	numbersHash.Insert(86);
+	numbersHash.Insert(14);
+	numbersHash.Remove(29);
+	numbersHash.Remove(14);
+	numbersHash.Remove(99);
+
+	// MyHashTable test
+	enum class Color
+	{
+		UNINITIALIZED,
+		RED,
+		ORANGE,
+		YELLOW,
+		GREEN,
+		BLUE
+	};
+	MyHashTable<int, Color> colorsHash(20);
+	colorsHash.Insert(1, Color::BLUE);
+	colorsHash.Insert(2, Color::RED);
+	colorsHash.Insert(3, Color::YELLOW);
+	colorsHash.GetValue(2);
+	colorsHash.Remove(2);
+	colorsHash.GetValue(2);
 
 	return 0;
 }
