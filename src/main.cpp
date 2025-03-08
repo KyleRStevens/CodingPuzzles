@@ -1,6 +1,9 @@
 // Standard
 #include <iostream>
 
+// 1st Party - My Algorithms
+#include "Searching.h"
+
 // 1st Party - My Data Structures
 #include "MyStack.h"
 #include "MyHashSet.h"
@@ -67,6 +70,9 @@ int main()
 	colorsHash.GetValue(2);
 	colorsHash.Remove(2);
 	colorsHash.GetValue(2);
+
+	// Binary search
+	BinarySearch(twoSumTestCase, 2);
 
 	return 0;
 }

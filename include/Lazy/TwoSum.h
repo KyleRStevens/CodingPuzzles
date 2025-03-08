@@ -67,43 +67,37 @@ public:
         // Sort the copied nums list if you want < O(n^2) time
         std::sort(sortedNums.begin(), sortedNums.end());
 
-        // For each number 'i', compare/check with each larger number 'j' UNTIL i+j > target result
-        // Once i+j > target result, move to next number 'i' UNTIL you reach the end of the search
-        // O(nlogn)
+        // For each number 'i', binary search the remaining larger numbers to see if they sum to the target. O(nlogn)
         for (int i = 0; i < sortedNums.size(); ++i)
         {
-            // Binary search for j since we're sorted
             int leftIndex = i + 1;
             int rightIndex = (sortedNums.size() - 1);
-            int j = (i + 1); // Start j within the search space
-            while (i < j && j < sortedNums.size() && leftIndex <= rightIndex)
+            int middleIndex = (leftIndex + 1);
+            while (i < middleIndex && middleIndex < sortedNums.size() && leftIndex <= rightIndex)
             {
-                // Set current check index for j
-                j = (leftIndex + rightIndex) / 2;
+                // Set current check (middle) index
+                middleIndex = ((rightIndex - leftIndex) / 2) + leftIndex;
 
                 // Compare & reset
-                if (sortedNums[i].first + sortedNums[j].first == target) // Answer found
+                if (sortedNums[i].first + sortedNums[middleIndex].first == target)
                 {
+                    // Answer found
                     answerIndices[0] = sortedNums[i].second;
-                    answerIndices[1] = sortedNums[j].second;
+                    answerIndices[1] = sortedNums[middleIndex].second;
                     return answerIndices;
                 }
 
-                // Break if we've reached the end of the search domain to not infinite loop
-                if (leftIndex == rightIndex)
+                // More to search. Update the search space and continue
+                if (sortedNums[i].first + sortedNums[middleIndex].first < target)
                 {
-                    break;
-                }
-
-                // More to search. Update the seacrch space and continue
-                if (sortedNums[i].first + sortedNums[j].first < target) // Answer would be to the right (for j)
-                {
-                    leftIndex = (++j);
+                    // Answer would be to the right (of middleIndex)
+                    leftIndex = middleIndex + 1;
                     continue;
                 }
-                else if (sortedNums[i].first + sortedNums[j].first > target) // Answer would be to the left (for j)
+                else if (sortedNums[i].first + sortedNums[middleIndex].first > target)
                 {
-                    rightIndex = (--j);
+                    // Answer would be to the left (of middleIndex)
+                    rightIndex = middleIndex - 1;
                     continue;
                 }
             }
