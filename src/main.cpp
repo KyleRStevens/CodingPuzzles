@@ -1,7 +1,10 @@
 // Standard
 #include <iostream>
 
-// 1st Party
+// 1st Party - My Data Structures
+#include "MyStack.h"
+
+// 1st Party - LeetCode Stuff
 #include "TwoSum.h"
 #include "AddTwoNumbers.h"
 
@@ -23,6 +26,16 @@ int main()
 	}
 	Solution_AddTwoNumbers addTwoNumbersSolution;
 	auto addTwoNumbersResult = addTwoNumbersSolution.addTwoNumbers(&addTwoNumbersNumber1[0], &addTwoNumbersNumber2[0]);
+
+	// MyStack test
+	MyStack<int> numberStack(5);
+	numberStack.Push(1);
+	numberStack.Push(2);
+	numberStack.Push(3);
+	numberStack.Push(4);
+	numberStack.Push(5);
+	numberStack.Push(6);
+	std::cout << numberStack.Pop() << std::endl;
 
 	return 0;
 }

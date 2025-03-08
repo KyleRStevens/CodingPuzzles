@@ -29,11 +29,12 @@ endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
 # Laxy file inclusion (not recommended for serious projects)
 file(GLOB HEADER_FILES_GLOB "include/Lazy/*.h")
+file(GLOB SOURCE_FILES_GLOB "src/Lazy/*.cpp")
 
 # Source files to compile
 set(SOURCE_FILES
     src/main.cpp
-	#src/Lazy/*.cpp
+	${SOURCE_FILES_GLOB}
 )
 
 # Header files
