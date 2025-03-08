@@ -1,3 +1,6 @@
+#pragma once
+
+// Standard
 #include <algorithm>
 #include <map>
 #include <vector>
