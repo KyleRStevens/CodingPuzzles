@@ -27,6 +27,9 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} ) # Same but for specified co
     set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_LIST_DIR}/bin/${OUTPUTCONFIGLOWER} )
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
+# Laxy file inclusion (not recommended for serious projects)
+file(GLOB HEADER_FILES_GLOB "include/Lazy/*.h")
+
 # Source files to compile
 set(SOURCE_FILES
     src/main.cpp
@@ -35,7 +38,7 @@ set(SOURCE_FILES
 
 # Header files
 set(HEADER_FILES
-    #include/Lazy/*.h
+    ${HEADER_FILES_GLOB}
 )
 
 # Group source files into different categories
