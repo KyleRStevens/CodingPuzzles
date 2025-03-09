@@ -3,6 +3,7 @@
 
 // 1st Party - My Algorithms
 #include "Searching.h"
+#include "Sorting.h"
 
 // 1st Party - My Data Structures
 #include "MyStack.h"
@@ -73,6 +74,12 @@ int main()
 
 	// Binary search
 	BinarySearch(twoSumTestCase, 2);
+
+	// Sorting
+	std::vector<int> numList{ 1, 3, 5, 2, 99, 22, 46, 3, 16, 14, 15, 14, 14, 6, 3, 65, 4 };
+	//BubbleSort(numList);
+	MergeSortRecursive(numList);
+	MergeSort(numList);
 
 	return 0;
 }

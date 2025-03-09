@@ -7,7 +7,7 @@
 // Searches a smallest to largest sorted list for the target value (returns the index or -1 if not found)
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, int>::type
-BinarySearch(std::vector<T> sortedList, T target, int startingLeftIndex = 0, int startingRightIndex = -1)
+BinarySearch(std::vector<T>& sortedList, T target, int startingLeftIndex = 0, int startingRightIndex = -1)
 {
     int targetIndex = -1;
     int iLeft = startingLeftIndex;
