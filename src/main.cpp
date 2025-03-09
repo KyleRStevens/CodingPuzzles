@@ -79,7 +79,9 @@ int main()
 	std::vector<int> numList{ 1, 3, 5, 2, 99, 22, 46, 3, 16, 14, 15, 14, 14, 6, 3, 65, 4 };
 	//BubbleSort(numList);
 	//MergeSortRecursive(numList);
-	MergeSort(numList);
+	//MergeSort(numList);
+	//InsertionSort(numList);
+	SelectionSort(numList);
 
 	return 0;
 }

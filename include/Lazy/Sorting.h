@@ -91,7 +91,7 @@ MergeSortRecursive(std::vector<T>& list)
 	}
 }
 
-// Does a merge sort
+// Does a merge sort: O(nlogn)
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value, void>::type
 MergeSort(std::vector<T>& list)
@@ -154,5 +154,57 @@ MergeSort(std::vector<T>& list)
 
 		// Double the sub-list size for the next iteration
 		subListSize *= 2;
+	}
+}
+
+// Does an insertion sort: O(n^2)
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+InsertionSort(std::vector<T>& list)
+{
+	// For each element in the list, shift it down until it is sorted with the already sorted elements in the list
+	for (int i = 1; i < list.size(); ++i)
+	{
+		// Starting at our current index and decrementing until we've found the spot in the sorted section to insert the current element
+		int indexToInsert = i - 1;
+		while (indexToInsert >= 0 && list[i] < list[indexToInsert])
+		{
+			--indexToInsert;
+		}
+		indexToInsert++; // We insert *after* the smaller item is found
+
+		// Save the current item to be inserted (since it will be overwritten)
+		T itemToInsert = list[i];
+
+		// Shift all the sorted elements to make room for the insert
+		std::copy(list.begin() + indexToInsert, list.begin() + i, list.begin() + indexToInsert + 1);
+
+		// Insert the item
+		list[indexToInsert] = itemToInsert;
+	}
+}
+
+// Does a selection sort: O(n^2)
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+SelectionSort(std::vector<T>& list)
+{
+	// For each index position, bubble-up the larget value
+	for (int iSorted = list.size() - 1; iSorted >= 0; --iSorted)
+	{
+		// Find the larget value in the unsorted section
+		int maxSeenIndex = 0;
+		T maxSeen = list[maxSeenIndex];
+		for (int j = 1; j <= iSorted; ++j)
+		{
+			if (list[j] > maxSeen)
+			{
+				maxSeen = list[j];
+				maxSeenIndex = j;
+			}
+		}
+
+		// Swap with the end of the unsorted section
+		std::swap(list[maxSeenIndex], list[iSorted]);
 	}
 }
