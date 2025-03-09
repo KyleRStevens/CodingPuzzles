@@ -9,6 +9,8 @@
 #include "MyStack.h"
 #include "MyHashSet.h"
 #include "MyHashTable.h"
+#include "MyBST.h"
+#include "MyTrie.h"
 
 // 1st Party - LeetCode Stuff
 #include "TwoSum.h"
@@ -86,6 +88,39 @@ int main()
 	//QuickSort(numList);
 	std::vector<int> numList{ 60, 99, 55, 85, 23, 49, 63, 37 };
 	RadixSort(numList);
+
+	// Trees
+	BinarySearchTree bst;
+	bst.Insert(10);
+	bst.Insert(5);
+	bst.Insert(15);
+	bst.Insert(3);
+	bst.Insert(8);
+	bst.Insert(7);
+	bst.Insert(11);
+	bst.Delete(10);
+	MyTrie myTrie;
+	std::string testString = "hi";
+	myTrie.Insert(testString);
+	testString = "hello";
+	myTrie.Insert(testString);
+	testString = "hola";
+	myTrie.Insert(testString);
+	testString = "hey";
+	myTrie.Insert(testString);
+	testString = "howdy";
+	myTrie.Insert(testString);
+	MyTrie::Node* wordNode = myTrie.Find(testString);
+	if (wordNode != nullptr && wordNode->m_isWord)
+	{
+		std::cout << "Word found" << std::endl;
+	}
+	testString = "yo";
+	wordNode = myTrie.Find(testString);
+	if (wordNode != nullptr && wordNode->m_isWord)
+	{
+		std::cout << "Word found" << std::endl;
+	}
 
 	return 0;
 }
