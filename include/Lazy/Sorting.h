@@ -4,6 +4,7 @@
 #include <vector>
 #include <type_traits>
 #include <math.h>
+#include <array>
 
 // Does a bubble sort: O(n^2)
 template <typename T>
@@ -288,4 +289,105 @@ QuickSort(std::vector<T>& list)
 	int startIndex = 0;
 	int endIndex = list.size() - 1;
 	QuickSortHelper(list, startIndex, endIndex);
+}
+
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, int>::type
+GetDigit(const T& number, const int digitIndex)
+{
+	int digit = 0;
+
+	// Force the input number to be an integer
+	int intNumber = static_cast<int>(number);
+
+	// Repeatedly do this 'digitIndex' # of times as we retreive 1 digit at a time
+	for (int i = 0; i <= digitIndex; ++i)
+	{
+		// Get the current digit
+		digit = intNumber % 10;
+
+		// Adjust the input number so that we can get the next digit if applicable
+		intNumber -= digit;
+		intNumber /= 10;
+	}
+
+	// Return the retrieved digit (from the 'digitIndex' place in 'number')
+	return digit;
+}
+
+// Does a radix sort:
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+RadixSort(std::vector<T>& list)
+{
+	// Create & initialize the auxillary array
+	std::vector<T> auxillaryArray{};
+	auxillaryArray.resize(list.size());
+
+	// Create & initialize the count array
+	constexpr size_t NUM_DIGITS = 10;
+	std::array<int, NUM_DIGITS> countArray{ 0 };
+
+	// Continue for an unknown number of iterations
+	for (int i = 0; true; ++i)
+	{
+		bool moreToSort = false;
+
+		// For each number in the input list
+		for (int j = 0; j < list.size(); ++j)
+		{
+			// Get the 'i'th digit (from the right)
+			int digit = GetDigit(list[j], i);
+
+			// Add to that digit's counter in the count array
+			countArray[digit] += 1;
+
+			// If a digit is ever non-0, set the flag to true so we know to continue sorting
+			if (digit != 0)
+			{
+				moreToSort = true;
+			}
+		}
+
+		// Exit case: If the count array is all 0's, we're done...?
+		if (moreToSort == false)
+		{
+			return;
+		}
+
+		// Subtract 1 from the 0th index in the count array (necessary to align to the correct positions in the auxillary array later)
+		countArray[0] -= 1;
+
+		// For each index (except the last) in the count array
+		for (int j = 0; j < NUM_DIGITS - 1; ++j)
+		{
+			// Sum the value with the value in the following index (index + 1)
+			int sum = countArray[j] + countArray[j + 1];
+
+			// Store the sum in (index + 1)
+			countArray[j + 1] = sum;
+		}
+
+		// For each number in the input list (starting from the end and working backwards)
+		for (int j = list.size() - 1; j >= 0; --j)
+		{
+			// Get the 'i'th digit
+			int digit = GetDigit(list[j], i);
+
+			// Use that digit as the index to check in the count array (get the value in that index)
+			int auxIndex = countArray[digit];
+
+			// Decrement the counter
+			countArray[digit]--;
+
+			// Put the current number from the input list into the auxillary array in the index that is the value retreived above
+			auxillaryArray[auxIndex] = list[j];
+		}
+
+		// Swap the auxillary array into the input list
+		std::swap(list, auxillaryArray);
+
+		// Zero out the count array
+		countArray.fill(0);
+	}
 }

@@ -76,14 +76,16 @@ int main()
 	BinarySearch(twoSumTestCase, 2);
 
 	// Sorting
-	std::vector<int> numList{ 1, 3, 5, 2, 99, 22, 46, 3, 16, 14, 15, 14, 14, 6, 3, 65, 4 };
+	//std::vector<int> numList{ 1, 3, 5, 2, 99, 22, 46, 3, 16, 14, 15, 14, 14, 6, 3, 65, 4 };
 	//BubbleSort(numList);
 	//MergeSortRecursive(numList);
 	//MergeSort(numList);
 	//InsertionSort(numList);
 	//SelectionSort(numList);
 	//std::vector<int> numList{ 326, 658, 671, 70, 459, 625, 814, 827 };
-	QuickSort(numList);
+	//QuickSort(numList);
+	std::vector<int> numList{ 60, 99, 55, 85, 23, 49, 63, 37 };
+	RadixSort(numList);
 
 	return 0;
 }
