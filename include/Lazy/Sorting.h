@@ -208,3 +208,84 @@ SelectionSort(std::vector<T>& list)
 		std::swap(list[maxSeenIndex], list[iSorted]);
 	}
 }
+
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+QuickSortLeftAdvancer(std::vector<T>& list, int& iLeft, const T TARGET)
+{
+	while (list[iLeft] < TARGET)
+	{
+		iLeft++;
+	}
+}
+
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+QuickSortHelper(std::vector<T>& list, const int START_INDEX, const int END_INDEX)
+{
+	// Return if there is nothing to sort
+	if (START_INDEX >= END_INDEX)
+	{
+		return;
+	}
+
+	// Select the pivot
+	int pivotIndex = ((END_INDEX - START_INDEX) / 2) + START_INDEX;
+
+	// Move the pivot to the end
+	std::swap(list[pivotIndex], list[END_INDEX]);
+	pivotIndex = END_INDEX;
+
+	// Partition the sub-list
+	int iLeft = START_INDEX;
+	int iRight = END_INDEX - 1;
+
+	// Advance the left index until it reaches a value >= the pivot value
+	QuickSortLeftAdvancer(list, iLeft, list[pivotIndex]);
+
+	// Advance (decriment) the right index until it crosses the left index
+	while (iRight >= iLeft)
+	{
+		// While advancing, if you reach a value < the pivot value, swap with the left, advance the left again, then continue here
+		if (list[iRight] < list[pivotIndex])
+		{
+			// Swap the selected values
+			std::swap(list[iLeft], list[iRight]);
+
+			// Advance the LEFT index again until it reaches a value >= the pivot value
+			QuickSortLeftAdvancer(list, iLeft, list[pivotIndex]);
+		}
+		else
+		{
+			// Otherwise, advance
+			iRight--;
+		}
+	}
+
+	// Swap the pivot with the left index - all values below this are < the pivot value, and all values above are >= the pivot value
+	std::swap(list[iLeft], list[pivotIndex]);
+	pivotIndex = iLeft;
+
+	// Recursively quick sort on the left side (if necessary)
+	if (pivotIndex - START_INDEX > 1)
+	{
+		QuickSortHelper(list, START_INDEX, pivotIndex - 1);
+	}
+
+	// Recursively quick sort on the right side (if necessary)
+	if (END_INDEX - pivotIndex > 1)
+	{
+		QuickSortHelper(list, pivotIndex + 1, END_INDEX);
+	}
+}
+
+// Does a quick sort: O(nlogn) average
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+QuickSort(std::vector<T>& list)
+{
+	// Do the initial quick sort
+	int startIndex = 0;
+	int endIndex = list.size() - 1;
+	QuickSortHelper(list, startIndex, endIndex);
+}

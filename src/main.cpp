@@ -81,7 +81,9 @@ int main()
 	//MergeSortRecursive(numList);
 	//MergeSort(numList);
 	//InsertionSort(numList);
-	SelectionSort(numList);
+	//SelectionSort(numList);
+	//std::vector<int> numList{ 326, 658, 671, 70, 459, 625, 814, 827 };
+	QuickSort(numList);
 
 	return 0;
 }
