@@ -15,9 +15,6 @@ public:
 
 		std::unordered_set<Page*> links;
 
-		int occurencesInListA = 0;
-		int occurencesInListB = 0;
-
 		std::vector<bool> visitersList;
 	};
 
@@ -25,6 +22,15 @@ public:
 	{
 		int fromPageID = 0;
 		int toPageID = 0;
+
+		// Simply used for sorting the links for better include ordering
+		int occurenceDiff = 0;
+	};
+
+	struct PageLinkOccurances
+	{
+		int fromOccurences = 0;
+		int toOccurences = 0;
 	};
 
 private:
@@ -75,7 +81,7 @@ private:
 	}
 
 public:
-	int getMaxVisitableWebpagesWithoutHeuristc(int N, int M, std::vector<int> A, std::vector<int> B)
+	int getMaxVisitableWebpagesInternal(int N, std::vector<Link>& links)
 	{
 		int maxVisitableWebpages = 0;
 
@@ -87,10 +93,10 @@ public:
 		}
 
 		// For each link, create the link, then update the max visitors of each node (recursive)
-		for (int i = 0; i < A.size(); ++i)
+		for (int i = 0; i < links.size(); ++i)
 		{
-			int fromPageID = A[i];
-			int toPageID = B[i];
+			int fromPageID = links[i].fromPageID;
+			int toPageID = links[i].toPageID;
 
 			// Create link
 			pages[fromPageID].links.insert(&pages[toPageID]);
@@ -123,26 +129,44 @@ public:
 	{
 		int maxVisitableWebpages = 0;
 
-		// Create a page (node) for each page that exists, where the index of the page node is the page ID of that page (resulting in O(1) lookups)
-		std::vector<Page> pages(N + 1);
+		// Heuristic: Building links 3->9 then 9->8 is better than building links 9->8 then 3->9 as there will be less recursion
+		// So, can we sort A & B such that we minimize the less preferable ordering and maximize the more preferable ordering?
+		std::vector<PageLinkOccurances> pageLinkOccurences(N + 1);
 
-		// Create a list of links that we can better use than referencing A & B directly
+		// Create a list of links that we can sort
 		std::vector<Link> links(A.size());
 
-		// Find the occurances of each node ID in A & B (trying to leverage a heuristic that building link 3->9 then 9->8 is better than building link 9->8 then 3->9 as there will be less recursion...)
+		// Fill out the list of links, also counting up the occurances of each page in A & B
 		for (int i = 0; i < A.size(); ++i)
 		{
-			// Fill out the link info
-			links[i].fromPageID = A[i];
-			links[i].toPageID = B[i];
+			int fromPage = A[i];
+			int toPage = B[i];
 
-			int pageIDInA = A[i];
-			int pageIDInB = B[i];
-			pages[pageIDInA].occurencesInListA++;
-			pages[pageIDInB].occurencesInListB++;
+			// Fill out the link info
+			links[i].fromPageID = fromPage;
+			links[i].toPageID = toPage;
+
+			// Update the occurances
+			pageLinkOccurences[fromPage].fromOccurences++;
+			pageLinkOccurences[toPage].toOccurences++;
+		}
+
+		// Just set this to false if this was actually a dumb idea (using the small examples it did reduce the number of recursion calls by ~10%...)
+		const bool USING_SORTED_LINKS_HEURISTIC = true;
+		if (USING_SORTED_LINKS_HEURISTIC)
+		{
+			// Save the occurence differences into the links themselves so we can sort by that
+			for (Link& link : links)
+			{
+				link.occurenceDiff = pageLinkOccurences[link.fromPageID].fromOccurences - pageLinkOccurences[link.fromPageID].toOccurences;
+			}
+
+			// Sort the list of links by the occurence difference for either the 'to' or 'from' page - it doesn't really matter which (as long ad you match the sorting direction accordingly)
+			auto sortByOccuranceDiff = [](Link& a, Link& b) { return a.occurenceDiff > b.occurenceDiff; };
+			std::sort(links.begin(), links.end(), sortByOccuranceDiff);
 		}
 
 		// Return the found maximum
-		return maxVisitableWebpages;
+		return getMaxVisitableWebpagesInternal(N, links);
 	}
 };

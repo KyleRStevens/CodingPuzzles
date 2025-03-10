@@ -42,7 +42,7 @@ int main()
 	std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
 	std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
 	Solution_RabbitHole2 rabbitHole2Solution;
-	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpagesWithoutHeuristc(10, 9, rabbitHole2ListA, rabbitHole2ListB);
+	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(10, 9, rabbitHole2ListA, rabbitHole2ListB);
 
 	return 0;
 }
