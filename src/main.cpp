@@ -11,6 +11,7 @@
 #include "MyHashTable.h"
 #include "MyBST.h"
 #include "MyTrie.h"
+#include "MyMinHeap.h"
 
 // 1st Party - LeetCode Stuff
 #include "TwoSum.h"
