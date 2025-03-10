@@ -16,6 +16,9 @@
 #include "TwoSum.h"
 #include "AddTwoNumbers.h"
 
+// 1st Party - Meta Puzzles Stuff
+#include "RabbitHole2.h"
+
 int main()
 {
 	// 1: Two Sum
@@ -35,92 +38,11 @@ int main()
 	Solution_AddTwoNumbers addTwoNumbersSolution;
 	auto addTwoNumbersResult = addTwoNumbersSolution.addTwoNumbers(&addTwoNumbersNumber1[0], &addTwoNumbersNumber2[0]);
 
-	// MyStack test
-	MyStack<int> numberStack(5);
-	numberStack.Push(1);
-	numberStack.Push(2);
-	numberStack.Push(3);
-	numberStack.Push(4);
-	numberStack.Push(5);
-	numberStack.Push(6);
-	std::cout << numberStack.Pop() << std::endl;
-
-	// MyHashSet test
-	MyHashSet<int> numbersHash(100);
-	numbersHash.Insert(14);
-	numbersHash.Insert(12);
-	numbersHash.Insert(29);
-	numbersHash.Insert(86);
-	numbersHash.Insert(14);
-	numbersHash.Remove(29);
-	numbersHash.Remove(14);
-	numbersHash.Remove(99);
-
-	// MyHashTable test
-	enum class Color
-	{
-		UNINITIALIZED,
-		RED,
-		ORANGE,
-		YELLOW,
-		GREEN,
-		BLUE
-	};
-	MyHashTable<int, Color> colorsHash(20);
-	colorsHash.Insert(1, Color::BLUE);
-	colorsHash.Insert(2, Color::RED);
-	colorsHash.Insert(3, Color::YELLOW);
-	colorsHash.GetValue(2);
-	colorsHash.Remove(2);
-	colorsHash.GetValue(2);
-
-	// Binary search
-	BinarySearch(twoSumTestCase, 2);
-
-	// Sorting
-	//std::vector<int> numList{ 1, 3, 5, 2, 99, 22, 46, 3, 16, 14, 15, 14, 14, 6, 3, 65, 4 };
-	//BubbleSort(numList);
-	//MergeSortRecursive(numList);
-	//MergeSort(numList);
-	//InsertionSort(numList);
-	//SelectionSort(numList);
-	//std::vector<int> numList{ 326, 658, 671, 70, 459, 625, 814, 827 };
-	//QuickSort(numList);
-	std::vector<int> numList{ 60, 99, 55, 85, 23, 49, 63, 37 };
-	RadixSort(numList);
-
-	// Trees
-	BinarySearchTree bst;
-	bst.Insert(10);
-	bst.Insert(5);
-	bst.Insert(15);
-	bst.Insert(3);
-	bst.Insert(8);
-	bst.Insert(7);
-	bst.Insert(11);
-	bst.Delete(10);
-	MyTrie myTrie;
-	std::string testString = "hi";
-	myTrie.Insert(testString);
-	testString = "hello";
-	myTrie.Insert(testString);
-	testString = "hola";
-	myTrie.Insert(testString);
-	testString = "hey";
-	myTrie.Insert(testString);
-	testString = "howdy";
-	myTrie.Insert(testString);
-	MyTrie::Node* wordNode = myTrie.Find(testString);
-	if (wordNode != nullptr && wordNode->m_isWord)
-	{
-		std::cout << "Word found" << std::endl;
-	}
-	testString = "yo";
-	wordNode = myTrie.Find(testString);
-	if (wordNode != nullptr && wordNode->m_isWord)
-	{
-		std::cout << "Word found" << std::endl;
-	}
+	// Meta: Rabbit Hole 2
+	std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
+	std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
+	Solution_RabbitHole2 rabbitHole2Solution;
+	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpagesWithoutHeuristc(10, 9, rabbitHole2ListA, rabbitHole2ListB);
 
 	return 0;
 }
