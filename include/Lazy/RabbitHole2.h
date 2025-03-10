@@ -34,7 +34,7 @@ public:
 	};
 
 private:
-	void updateMaxVisitors(Page* pFromPage, Page* pThisPage, std::vector<bool> visitedList)
+	void updateMaxVisitors(Page* pFromPage, Page* pThisPage, std::vector<bool>& visitedList)
 	{
 		// Make sure this node has not already been visited during this update cycle (if it has, just return)
 		if (visitedList[pThisPage->pageID] == false)
@@ -77,6 +77,9 @@ private:
 					updateMaxVisitors(pThisPage, pLinkedPage, visitedList);
 				}
 			}
+
+			// Before we exit this recursion level, remove the current page from the visited flags
+			visitedList[pThisPage->pageID] = false;
 		}
 	}
 
@@ -125,6 +128,7 @@ public:
 		return maxVisitableWebpages + 1;
 	}
 
+	// Currently passing 10/22 test cases...
 	int getMaxVisitableWebpages(int N, int M, std::vector<int> A, std::vector<int> B)
 	{
 		int maxVisitableWebpages = 0;
