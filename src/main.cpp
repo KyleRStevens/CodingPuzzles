@@ -45,19 +45,5 @@ int main()
 	Solution_RabbitHole2 rabbitHole2Solution;
 	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(10, 9, rabbitHole2ListA, rabbitHole2ListB);
 
-
-	std::vector<Node<int>> nodes(6);
-	for (int i = 0; i < nodes.size(); ++i)
-	{
-		nodes[i].value = i;
-
-		int connectionIndex1 = (i + 1) % nodes.size();
-		int connectionIndex2 = ((nodes.size() / 2) + i) % nodes.size();
-
-		nodes[i].connections.insert(&nodes[connectionIndex1]);
-		nodes[i].connections.insert(&nodes[connectionIndex2]);
-	}
-	auto r = DepthFirstSearch(&nodes[0], 5);
-
 	return 0;
 }
