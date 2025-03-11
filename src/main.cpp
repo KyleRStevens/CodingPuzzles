@@ -19,6 +19,7 @@
 
 // 1st Party - Meta Puzzles Stuff
 #include "RabbitHole2.h"
+#include "RabbitHole2v2.h"
 
 int main()
 {
@@ -39,11 +40,13 @@ int main()
 	Solution_AddTwoNumbers addTwoNumbersSolution;
 	auto addTwoNumbersResult = addTwoNumbersSolution.addTwoNumbers(&addTwoNumbersNumber1[0], &addTwoNumbersNumber2[0]);
 
-	// Meta Puzzle: Rabbit Hole 2 (Currently passing 10/22 test cases...)
-	std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
-	std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
-	Solution_RabbitHole2 rabbitHole2Solution;
-	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(10, 9, rabbitHole2ListA, rabbitHole2ListB);
+	// Meta Puzzle: Rabbit Hole 2 (Currently passing 12/22 test cases...)
+	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
+	//std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
+	std::vector<int> rabbitHole2ListA{ 3 };
+	std::vector<int> rabbitHole2ListB{ 5 };
+	Solution_RabbitHole2v2 rabbitHole2Solution;
+	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(0, 1, rabbitHole2ListA, rabbitHole2ListB);
 
 	return 0;
 }
