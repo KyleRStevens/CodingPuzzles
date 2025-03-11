@@ -3,6 +3,7 @@
 // Standard
 #include <vector>
 #include <type_traits>
+#include <set>
 
 // Searches a smallest to largest sorted list for the target value (returns the index or -1 if not found)
 template <typename T>
@@ -43,4 +44,57 @@ BinarySearch(std::vector<T>& sortedList, T target, int startingLeftIndex = 0, in
     }
 
     return targetIndex;
+}
+
+template <typename T>
+struct Node
+{
+    T value;
+    std::set<Node*> connections;
+};
+
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, Node<T>*>::type
+DepthFirstSearchHelper(Node<T>* pNode, const T& target, std::set<Node<T>*>& visitedNodes)
+{
+    Node<T>* result = nullptr;
+
+    // If this node has already been visited, just return immediately
+    if (visitedNodes.find(pNode) == visitedNodes.end())
+    {
+        // Check if this node is the target (is so, return pNode)
+        if (pNode->value == target)
+        {
+            return pNode;
+        }
+
+        // Mark as visited
+        visitedNodes.insert(pNode);
+
+        // For each connection from this node, recurse
+        for (Node<T>* pConnection : pNode->connections)
+        {
+            result = DepthFirstSearchHelper(pConnection, target, visitedNodes);
+            if (result != nullptr)
+            {
+                // Return the find!
+                return result;
+            }
+        }
+    }
+
+    return result;
+}
+
+// Given a pointer to a start node and a target value, returns a pointer to the node with the target value (or nullptr of not found)
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, Node<T>*>::type
+DepthFirstSearch(Node<T>* pNode, const T target)
+{
+    std::set<Node<T>*> visitedNodes;
+    Node<T>* result = nullptr;
+    
+    result = DepthFirstSearchHelper(pNode, target, visitedNodes);
+
+    return result;
 }
