@@ -391,3 +391,41 @@ RadixSort(std::vector<T>& list)
 		countArray.fill(0);
 	}
 }
+
+// Does a counting sort: O(n + k) where k is the size of the largest value in the list (values must be positive)
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value, void>::type
+CountingSort(std::vector<T>& list)
+{
+	// Find the max value in the input list (k)
+	T maxValue = 0;
+	for (auto& value : list)
+	{
+		if (value > maxValue)
+		{
+			maxValue = value;
+		}
+	}
+
+	// Create an auxillary array of size 'k' (initialized to 0)
+	std::vector<int> auxillaryArray(maxValue + 1, 0);
+
+	// Store the frequency of each value from the input list in the auxillary array at the index of the value
+	for (auto& value : list)
+	{
+		auxillaryArray[value]++;
+	}
+
+	// Go through the auxillary list, and when you hit a cell where (count > 0), put that many 'values' into the sorted list, each at the nex available index
+	int indexInSortedList = 0;
+	for (T value = 0; value < auxillaryArray.size(); ++value)
+	{
+		int count = auxillaryArray[value];
+
+		for (int i = 0; i < count; ++i)
+		{
+			list[indexInSortedList] = value;
+			indexInSortedList++;
+		}
+	}
+}
