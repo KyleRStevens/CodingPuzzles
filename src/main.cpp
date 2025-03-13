@@ -20,7 +20,7 @@
 // 1st Party - Meta Puzzles Stuff
 #include "RabbitHole2.h"
 #include "RabbitHole2v2.h"
-#include "RabbitHole2v2MT.h"
+#include "Kaitenzushi.h"
 
 int main()
 {
@@ -50,6 +50,11 @@ int main()
 	std::vector<int> rabbitHole2ListB{ 2, 3, 4, 5, 2 };	// Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
 	Solution_RabbitHole2v2 rabbitHole2Solution;
 	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
+
+	// Meta Puzzle: Kaitenzushi
+	std::vector<int> kaitenzushiDishes{ 1, 2, 3, 3, 2, 1 };
+	Solution_Kaitenzushi kaitenzushiSolution;
+	auto kaitenzushiResult = kaitenzushiSolution.getMaximumEatenDishCount(kaitenzushiDishes.size(), kaitenzushiDishes, 2);
 
 	return 0;
 }
