@@ -7,9 +7,22 @@ template <typename T>
 class MyMinHeap
 {
 public:
+	// Use this if you want to attach another value to the value being put into the MinHeap
+	struct Pair
+	{
+		T sortValue;
+		T storedValue;
+
+		bool operator< (const Pair& other) const { return sortValue < other.sortValue; }
+		bool operator> (const Pair& other) const { return sortValue > other.sortValue; }
+	};
+
+public:
 	void Insert(T value);
 
 	T PopMin();
+
+	bool Contains(T value);
 
 private:
 	int GetParentIndex(int currentIndex) { return (currentIndex - 1) / 2; }
@@ -104,4 +117,18 @@ inline T MyMinHeap<T>::PopMin()
 	}
 
 	return 0;
+}
+
+template<typename T>
+inline bool MyMinHeap<T>::Contains(T value)
+{
+	for (auto& element : m_data)
+	{
+		if (element == value)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
