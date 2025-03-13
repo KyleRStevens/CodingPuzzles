@@ -21,6 +21,7 @@
 #include "RabbitHole2.h"
 #include "RabbitHole2v2.h"
 #include "Kaitenzushi.h"
+#include "RotaryLock.h"
 
 int main()
 {
@@ -55,6 +56,11 @@ int main()
 	std::vector<int> kaitenzushiDishes{ 1, 2, 3, 3, 2, 1 };
 	Solution_Kaitenzushi kaitenzushiSolution;
 	auto kaitenzushiResult = kaitenzushiSolution.getMaximumEatenDishCount(kaitenzushiDishes.size(), kaitenzushiDishes, 2);
+
+	// Meta Puzzle: Rotary Lock
+	std::vector<int> rotaryLockCode{ 9, 4, 4, 8 };
+	Solution_RotaryLock rotaryLockSolution;
+	auto rotaryLockResult = rotaryLockSolution.getMinCodeEntryTime(10, rotaryLockCode.size(), rotaryLockCode);
 
 	return 0;
 }
