@@ -22,6 +22,7 @@
 #include "RabbitHole2v2.h"
 #include "Kaitenzushi.h"
 #include "RotaryLock.h"
+#include "ScoreboardInference.h"
 
 int main()
 {
@@ -61,6 +62,11 @@ int main()
 	std::vector<int> rotaryLockCode{ 9, 4, 4, 8 };
 	Solution_RotaryLock rotaryLockSolution;
 	auto rotaryLockResult = rotaryLockSolution.getMinCodeEntryTime(10, rotaryLockCode.size(), rotaryLockCode);
+
+	// Meta Puzzle: Scoreboard Inference
+	std::vector<int> scoreboardInferenceScores{ 2, 4, 6, 8 };
+	Solution_ScoreboardInference scoreboardInferenceSolution;
+	auto scoreboardInferenceResult = scoreboardInferenceSolution.getMinProblemCount(scoreboardInferenceScores.size(), scoreboardInferenceScores);
 
 	return 0;
 }

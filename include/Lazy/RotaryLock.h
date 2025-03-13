@@ -32,8 +32,8 @@ public:
 		for (int i = 0; i < C.size() - 1; ++i)
 		{
 			// Determine the shorter path to the next digit & add that many seconds to your running count
-			long long num1 = C[i];
-			long long num2 = C[i + 1];
+			int num1 = C[i];
+			int num2 = C[i + 1];
 			minCodeEntryTime += shorterPath(N, num1, num2);
 		}
 
