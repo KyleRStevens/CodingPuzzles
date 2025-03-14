@@ -26,6 +26,8 @@
 #include "Kaitenzushi.h"
 #include "RotaryLock.h"
 #include "ScoreboardInference.h"
+#include "StackStabilization.h"
+#include "UniformIntegers.h"
 
 int main()
 {
@@ -70,6 +72,15 @@ int main()
 	std::vector<int> scoreboardInferenceScores{ 2, 4, 6, 8 };
 	Solution_ScoreboardInference scoreboardInferenceSolution;
 	auto scoreboardInferenceResult = scoreboardInferenceSolution.getMinProblemCount(scoreboardInferenceScores.size(), scoreboardInferenceScores);
+
+	// Meta Puzzle: Stack Stabilization
+	std::vector<int> stackStabilizationDiscs{ 6, 5, 4, 3 };
+	Solution_StackStabilization stackStabilizationSolution;
+	auto stackStabilizationResult = stackStabilizationSolution.getMinimumDeflatedDiscCount(stackStabilizationDiscs.size(), stackStabilizationDiscs);
+
+	// Meta Puzzle: Stack Stabilization
+	Solution_UniformIntegers uniformIntegersSolution;
+	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 
 	return 0;
 }
