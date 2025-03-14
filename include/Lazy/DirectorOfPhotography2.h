@@ -16,6 +16,8 @@
     - When looking for valid connections, don't even check the indices closer than X or farther than Y
     - Give directionality to connections so traversing the graph doesn't go through invalid paths before it checks if the "directions match" (it will be inherent)
     - No point in building A->B connections if A isn't connected to a P
+    - When searching for connections, choose the smaller search space between the valid distance cells and the total number of things you're searching for (search the smaller space)
+    - Save indices instead of pointers
 */
 
 class Solution_DirectorOfPhotography2
@@ -24,150 +26,220 @@ public:
     struct Node
     {
     public:
-        Node(char initType, int initIndex) : type(initType), index(initIndex) { /* Do nothing */ }
+        Node(uint32_t initIndex) : index(initIndex) { /* Do nothing */ }
 
     public:
-        char type;
-        int index;
+        uint32_t index;
         bool hasConnectorFromAhead = false;  // We don't care who, just if it has a connection or not
         bool hasConnectorFromBehind = false; // We don't care who, just if it has a connection or not
-        std::vector<Node*> forwardChildren;
-        std::vector<Node*> backwardChildren;
+        std::vector<uint32_t> forwardChildren;
+        std::vector<uint32_t> backwardChildren;
     };
+
+private:
+    void createBackwardsConnection(std::vector<Node>& allNodes, uint32_t fromIndex, uint32_t toIndex)
+    {
+        // Create the backwards connection
+        allNodes[fromIndex].backwardChildren.push_back(toIndex);
+
+        // Flag the 'to' node as connected to from ahead
+        allNodes[toIndex].hasConnectorFromAhead = true;
+    }
+
+    void createForwardsConnection(std::vector<Node>& allNodes, uint32_t fromIndex, uint32_t toIndex)
+    {
+        // Create the forward connection
+        allNodes[fromIndex].forwardChildren.push_back(toIndex);
+
+        // Flag the 'to' node as connected to from behind
+        allNodes[toIndex].hasConnectorFromBehind = true;
+    }
 
 public:
     int getArtisticPhotographCount(int N, std::string& C, int X, int Y) // O(N + P*(Y-X) + A*(Y-X) + P*A) where 'Y-X' cound be up to N, so O(N + P*N + A*N + P*A) ==> O(P*N + A*N) i.e. O(N^2) since P or A could be ~N
     {
         int artisticPhotoCount = 0;
         std::vector<Node> allNodes;
-        std::vector<Node*> photographerNodes;
-        std::vector<Node*> actorNodes;
-        std::vector<Node*> backdropNodes;
+        std::vector<uint32_t> photographerIndices;
+        std::vector<uint32_t> actorIndices;
+        std::vector<uint32_t> backdropIndices;
 
         // Reserve space for efficiency (with memory limitations, we will guess at a lower amount of space)
         allNodes.reserve(C.size());
-        photographerNodes.reserve(C.size() / 3);
-        actorNodes.reserve(C.size() / 3);
-        backdropNodes.reserve(C.size() / 3);
+        //photographerIndices.reserve(C.size() / 4);
+        //actorIndices.reserve(C.size() / 4);
+        //backdropIndices.reserve(C.size() / 4);
 
         // Create graph nodes for each P|A|B cell type (capturing their indices too)
         for (int i = 0; i < C.size(); ++i) // O(N)
         {
-            // Initialize each node (including empty nodes) with its type and index in C
-            allNodes.emplace_back(C[i], i);
+            // Initialize each node (including empty nodes) with its index in C
+            allNodes.emplace_back(i);
 
             // Keep a list of all P|A|B types (keep pointers to those nodes)
-            if (C[i] == 'P')
+            switch (C[i])
             {
-                photographerNodes.emplace_back(&allNodes[i]);
-            }
-            else if (C[i] == 'A')
-            {
-                actorNodes.emplace_back(&allNodes[i]);
-            }
-            else if (C[i] == 'B')
-            {
-                backdropNodes.emplace_back(&allNodes[i]);
+            case 'P':
+                photographerIndices.emplace_back(i);
+                break;
+
+            case 'A':
+                actorIndices.emplace_back(i);
+                break;
+
+            case 'B':
+                backdropIndices.emplace_back(i);
+                break;
+
+            default:
+                break;
             }
         }
 
+        // Determine the number of cells/nodes within the valid distance of a given node being checked (we'll see if this is more or less than the number of nodes of the type we're looking for, and search through whichever is less)
+        int numValidDistanceNodes = ((Y - X) + 1) * 2;
+
         // Build valid photographer to actor connections
-        for (Node* pPhotographer : photographerNodes) // O(P)
+        for (uint32_t photographerIndex : photographerIndices) // O(P)
         {
-            const int photographerIndex = pPhotographer->index;
-
-            // Find any actors within the valid distance BEHIND the photographer
-            int minCheckIndex = std::max(photographerIndex - Y, 0);
-            int maxCheckIndex = photographerIndex - X;
-            for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
+            // Determine the search strategy (for searching for valid actors)
+            if (numValidDistanceNodes < actorIndices.size()) // There are more actors to search through than valid cells to search through
             {
-                // If the cell/node is an actor
-                if (allNodes[i].type == 'A')
+                // Find any actors within the valid distance BEHIND the photographer
+                int minCheckIndex = std::max(static_cast<int>(photographerIndex) - Y, 0);
+                int maxCheckIndex = static_cast<int>(photographerIndex) - X;
+                for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
                 {
-                    // Create the backwards connection
-                    pPhotographer->backwardChildren.push_back(&allNodes[i]);
+                    // If the cell/node is an actor
+                    if (C[i] == 'A')
+                    {
+                        // Create the backwards connection
+                        createBackwardsConnection(allNodes, photographerIndex, i);
+                    }
+                }
 
-                    // Flag the actor as connected to from ahead
-                    allNodes[i].hasConnectorFromAhead = true;
+                // Find any actors within the valid distance AHEAD OF the photographer
+                minCheckIndex = photographerIndex + X;
+                maxCheckIndex = std::min(static_cast<int>(photographerIndex) + Y, static_cast<int>(C.size() - 1));
+                for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
+                {
+                    // If the cell/node is an actor
+                    if (C[i] == 'A')
+                    {
+                        // Create the forwards connection
+                        createForwardsConnection(allNodes, photographerIndex, i);
+                    }
                 }
             }
-
-            // Find any actors within the valid distance AHEAD OF the photographer
-            minCheckIndex = photographerIndex + X;
-            maxCheckIndex = std::min(photographerIndex + Y, static_cast<int>(allNodes.size() - 1));
-            for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
+            else // (numValidDistanceNodes >= numActors) i.e. there are more cells to search through than total actors (so just search through the actors)
             {
-                // If the cell/node is an actor
-                if (allNodes[i].type == 'A')
+                // For each actor
+                for (uint32_t actorIndex : actorIndices)
                 {
-                    // Create the forwards connection
-                    pPhotographer->forwardChildren.push_back(&allNodes[i]);
+                    // Get the distance(s)
+                    int distance = static_cast<int>(photographerIndex) - static_cast<int>(actorIndex);
+                    int absDistance = std::abs(distance);
 
-                    // Flag the actor as connected to from behind
-                    allNodes[i].hasConnectorFromBehind = true;
+                    // If it is a valid distance away
+                    if (absDistance >= X && absDistance <= Y)
+                    {
+                        // Check the direction
+                        if (distance > 0)
+                        {
+                            // Create the backwards connection
+                            createBackwardsConnection(allNodes, photographerIndex, actorIndex);
+                        }
+                        else // (distance < 0)
+                        {
+                            // Create the forwards connection
+                            createForwardsConnection(allNodes, photographerIndex, actorIndex);
+                        }
+                    }
                 }
             }
         }
 
         // Build valid actor to backdrop connections
-        for (Node* pActor : actorNodes) // O(A)
+        for (uint32_t actorIndex : actorIndices) // O(A)
         {
-            const int actorIndex = pActor->index;
-
-            // If the actor has no valid photographer ahead of them, no point in looking for backdrops behind it
-            if (pActor->hasConnectorFromAhead)
+            // Determine the search strategy (for searching for valid backdrops)
+            if (numValidDistanceNodes < backdropIndices.size())
             {
-                // Find any backdrops within the valid distance BEHIND the actor
-                int minCheckIndex = std::max(actorIndex - Y, 0);
-                int maxCheckIndex = actorIndex - X;
-                for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
+                // If the actor has no valid photographer ahead of them, no point in looking for backdrops behind it
+                if (allNodes[actorIndex].hasConnectorFromAhead)
                 {
-                    // If the cell/node is a backdrop
-                    if (allNodes[i].type == 'B')
+                    // Find any backdrops within the valid distance BEHIND the actor
+                    int minCheckIndex = std::max(static_cast<int>(actorIndex) - Y, 0);
+                    int maxCheckIndex = static_cast<int>(actorIndex) - X;
+                    for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
                     {
-                        // Create the backwards connection
-                        pActor->backwardChildren.push_back(&allNodes[i]);
+                        // If the cell/node is a backdrop
+                        if (C[i] == 'B')
+                        {
+                            // Create the backwards connection
+                            createBackwardsConnection(allNodes, actorIndex, i);
+                        }
+                    }
+                }
 
-                        // Flag the backdrop as connected to from ahead
-                        allNodes[i].hasConnectorFromAhead = true;
+                // If the actor has no valid photographer behind them, no point in looking for backdrops ahead of them
+                if (allNodes[actorIndex].hasConnectorFromBehind)
+                {
+                    // Find any backdrops within the valid distance AHEAD OF the actor
+                    int minCheckIndex = actorIndex + X;
+                    int maxCheckIndex = std::min(static_cast<int>(actorIndex) + Y, static_cast<int>(C.size() - 1));
+                    for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
+                    {
+                        // If the cell/node is a backdrop
+                        if (C[i] == 'B')
+                        {
+                            // Create the forwards connection
+                            createForwardsConnection(allNodes, actorIndex, i);
+                        }
                     }
                 }
             }
-
-            // If the actor has no valid photographer behind them, no point in looking for backdrops ahead of them
-            if (pActor->hasConnectorFromBehind)
+            else // (numValidDistanceNodes >= backdropIndices.size())
             {
-                // Find any backdrops within the valid distance AHEAD OF the actor
-                int minCheckIndex = actorIndex + X;
-                int maxCheckIndex = std::min(actorIndex + Y, static_cast<int>(allNodes.size() - 1));
-                for (int i = minCheckIndex; i <= maxCheckIndex; ++i) // O(Y-X)
+                // For each backdrop
+                for (uint32_t backdropIndex : backdropIndices)
                 {
-                    // If the cell/node is a backdrop
-                    if (allNodes[i].type == 'B')
-                    {
-                        // Create the backwards connection
-                        pActor->forwardChildren.push_back(&allNodes[i]);
+                    // Get the distance(s)
+                    int distance = static_cast<int>(actorIndex) - static_cast<int>(backdropIndex);
+                    int absDistance = std::abs(distance);
 
-                        // Flag the backdrop as connected to from behind
-                        allNodes[i].hasConnectorFromBehind = true;
+                    // If it is a valid distance away
+                    if (absDistance >= X && absDistance <= Y)
+                    {
+                        // Check which direction
+                        if (distance > 0)
+                        {
+                            // Create the backwards connection
+                            createBackwardsConnection(allNodes, actorIndex, backdropIndex);
+                        }
+                        else // (distance < 0)
+                        {
+                            // Create the forwards connection
+                            createForwardsConnection(allNodes, actorIndex, backdropIndex);
+                        }
                     }
                 }
             }
         }
 
         // Traverse the graph counting up how many valid paths there are
-        for (Node* pPhotographer : photographerNodes) // O(P)
+        for (uint32_t photographerIndex : photographerIndices) // O(P)
         {
             // Count the valid backward-facing photos
-            for (Node* pActorNode : pPhotographer->backwardChildren) // O(A)
+            for (uint32_t actorIndex : allNodes[photographerIndex].backwardChildren) // O(A)
             {
-                artisticPhotoCount += pActorNode->backwardChildren.size();
+                artisticPhotoCount += allNodes[actorIndex].backwardChildren.size();
             }
 
             // Count the valid forward-facing photos
-            for (Node* pActorNode : pPhotographer->forwardChildren) // O(A)
+            for (uint32_t actorIndex : allNodes[photographerIndex].forwardChildren) // O(A)
             {
-                artisticPhotoCount += pActorNode->forwardChildren.size();
+                artisticPhotoCount += allNodes[actorIndex].forwardChildren.size();
             }
         }
 

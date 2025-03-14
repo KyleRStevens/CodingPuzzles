@@ -90,7 +90,7 @@ int main()
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 
 	// Meta Puzzle: Director of Photography 2 (currently passing 34/39 test cases, failing due to speed)
-	std::string directorOfPhotography2Cells = "APABA";
+	std::string directorOfPhotography2Cells = ".PBAAP.B";
 	Solution_DirectorOfPhotography2 directorOfPhotography2Solution;
 	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 3);
 
