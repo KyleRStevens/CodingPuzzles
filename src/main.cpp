@@ -23,6 +23,8 @@
 // 1st Party - Meta Puzzles Stuff
 #include "RabbitHole2.h"
 #include "RabbitHole2v2.h"
+#include "DirectorOfPhotography.h"
+#include "DirectorOfPhotography2.h"
 #include "Kaitenzushi.h"
 #include "RotaryLock.h"
 #include "ScoreboardInference.h"
@@ -58,6 +60,11 @@ int main()
 	Solution_RabbitHole2v2 rabbitHole2Solution;
 	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
 
+	// Meta Puzzle: Director of Photography
+	std::string directorOfPhotographyCells = ".PBAAP.B";
+	Solution_DirectorOfPhotography directorOfPhotographySolution;
+	auto directorOfPhotographyResult = directorOfPhotographySolution.getArtisticPhotographCount(directorOfPhotographyCells.size(), directorOfPhotographyCells, 1, 3);
+
 	// Meta Puzzle: Kaitenzushi
 	std::vector<int> kaitenzushiDishes{ 1, 2, 3, 3, 2, 1 };
 	Solution_Kaitenzushi kaitenzushiSolution;
@@ -81,6 +88,11 @@ int main()
 	// Meta Puzzle: Stack Stabilization
 	Solution_UniformIntegers uniformIntegersSolution;
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
+
+	// Meta Puzzle: Director of Photography 2 (currently passing 34/39 test cases, failing due to speed)
+	std::string directorOfPhotography2Cells = "APABA";
+	Solution_DirectorOfPhotography2 directorOfPhotography2Solution;
+	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 3);
 
 	return 0;
 }
