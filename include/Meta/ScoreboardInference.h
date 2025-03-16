@@ -13,14 +13,14 @@
 class Solution_ScoreboardInference
 {
 public:
-	int getMinProblemCount(int N, std::vector<int>& S)
+	int getMinProblemCount(int N, std::vector<int>& S) // O(N)
 	{
 		int minProblemCount = 0;
 
 		// Find the max score (flagging if there are any odd numbers in the list)
 		bool oddExists = false;
 		long long maxScore = 0;
-		for (int i = 0; i < S.size(); ++i)
+		for (int i = 0; i < S.size(); ++i) // O(N)
 		{
 			// Keep updating the max
 			if (S[i] > maxScore)

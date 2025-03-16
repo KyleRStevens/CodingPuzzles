@@ -21,6 +21,7 @@
 #include "AddTwoNumbers.h"
 
 // 1st Party - Meta Puzzles Stuff
+#include "Cafeteria.h"
 #include "RabbitHole2.h"
 #include "RabbitHole2v2.h"
 #include "DirectorOfPhotography.h"
@@ -37,6 +38,10 @@
 
 int main()
 {
+	/********************
+	*  LeetCode Tests  *
+	********************/
+
 	// LeetCode #1: Two Sum
 	std::vector<int> twoSumTestCase{ 2,7,11,15 };
 	int twoSumTarget = 9;
@@ -54,15 +59,15 @@ int main()
 	Solution_AddTwoNumbers addTwoNumbersSolution;
 	auto addTwoNumbersResult = addTwoNumbersSolution.addTwoNumbers(&addTwoNumbersNumber1[0], &addTwoNumbersNumber2[0]);
 
-	// Meta Puzzle: Rabbit Hole 2 (Currently passing 12/22 test cases...)
-	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
-	//std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
-	//std::vector<int> rabbitHole2ListA{ 1, 2, 2, 4 }; // Bug 1 (fixed)
-	//std::vector<int> rabbitHole2ListB{ 2, 1, 3, 2 }; // Bug 1 (fixed)
-	std::vector<int> rabbitHole2ListA{ 1, 2, 3, 3, 4 }; // Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
-	std::vector<int> rabbitHole2ListB{ 2, 3, 4, 5, 2 };	// Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
-	Solution_RabbitHole2v2 rabbitHole2Solution;
-	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
+
+	/***********************
+	*  Meta Puzzles Tests  *
+	***********************/
+
+	// Meta Puzzle: Cafeteria
+	std::vector<long long> cafeteriaOccupiedSeats{ 2, 6 };
+	Solution_Cafeteria cafeteriaSolution;
+	auto cafeteriaResult = cafeteriaSolution.getMaxAdditionalDinersCount(10, 1, cafeteriaOccupiedSeats.size(), cafeteriaOccupiedSeats);
 
 	// Meta Puzzle: Director of Photography
 	std::string directorOfPhotographyCells = ".PBAAP.B";
@@ -89,7 +94,7 @@ int main()
 	Solution_StackStabilization stackStabilizationSolution;
 	auto stackStabilizationResult = stackStabilizationSolution.getMinimumDeflatedDiscCount(stackStabilizationDiscs.size(), stackStabilizationDiscs);
 
-	// Meta Puzzle: Stack Stabilization
+	// Meta Puzzle: Uniform Integers (passing 20/33 - 13 wrong answers)
 	Solution_UniformIntegers uniformIntegersSolution;
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 
@@ -97,6 +102,16 @@ int main()
 	std::string directorOfPhotography2Cells = "B...A...P.....P";
 	Solution_DirectorOfPhotography2v5 directorOfPhotography2Solution;
 	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 300'000);
+
+	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
+	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
+	//std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
+	//std::vector<int> rabbitHole2ListA{ 1, 2, 2, 4 }; // Bug 1 (fixed)
+	//std::vector<int> rabbitHole2ListB{ 2, 1, 3, 2 }; // Bug 1 (fixed)
+	std::vector<int> rabbitHole2ListA{ 1, 2, 3, 3, 4 }; // Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
+	std::vector<int> rabbitHole2ListB{ 2, 3, 4, 5, 2 };	// Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
+	Solution_RabbitHole2v2 rabbitHole2Solution;
+	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
 
 	return 0;
 }

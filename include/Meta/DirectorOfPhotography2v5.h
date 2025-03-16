@@ -11,15 +11,10 @@
 #include <unordered_set>
 #include <vector>
 
-/*
-* Optimizations from v3:
-    - Build as you go...
-*/
-
 class Solution_DirectorOfPhotography2v5
 {
 public:
-    long long getArtisticPhotographCount(int N, std::string& C, int X, int Y)
+    long long getArtisticPhotographCount(int N, std::string& C, int X, int Y) // O(N)
     {
         long long artisticPhotoCount = 0;
 
@@ -30,7 +25,7 @@ public:
         int backdropsRightOfActor = 0;
 
         // For each char (cell) in the string
-        for (int actorCheckIndex = 0 - Y; actorCheckIndex < static_cast<int>(C.size()); ++actorCheckIndex) // O(N)
+        for (int actorCheckIndex = 0 - Y; actorCheckIndex < static_cast<int>(C.size()); ++actorCheckIndex) // O(2N) ==> O(N)
         {
             // Check items ENTERING the RIGHT window area
             int enterRightIndex = actorCheckIndex + Y;

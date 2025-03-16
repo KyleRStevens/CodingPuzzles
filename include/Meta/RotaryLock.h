@@ -21,7 +21,7 @@ public:
 		return std::min(diff1, diff2);
 	}
 
-	long long getMinCodeEntryTime(int N, int M, std::vector<int>& C)
+	long long getMinCodeEntryTime(int N, int M, std::vector<int>& C) // O(N)
 	{
 		long long minCodeEntryTime = 0;
 
@@ -29,7 +29,7 @@ public:
 		minCodeEntryTime += shorterPath(N, 1, C[0]);
 
 		// For each digit in C (minus 1)
-		for (int i = 0; i < C.size() - 1; ++i)
+		for (int i = 0; i < C.size() - 1; ++i) // O(N)
 		{
 			// Determine the shorter path to the next digit & add that many seconds to your running count
 			int num1 = C[i];

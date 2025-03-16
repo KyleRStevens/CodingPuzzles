@@ -13,7 +13,7 @@
 class Solution_StackStabilization
 {
 public:
-	int getMinimumDeflatedDiscCount(int N, std::vector<int>& R)
+	int getMinimumDeflatedDiscCount(int N, std::vector<int>& R) // O(N)
 	{
 		int numDiscsDeflated = 0;
 
