@@ -28,7 +28,9 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} ) # Same but for specified co
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
 # Laxy file inclusion (not recommended for serious projects)
-file(GLOB HEADER_FILES_GLOB "include/Lazy/*.h")
+file(GLOB HEADER_FILES_LEETCODE_GLOB "include/LeetCode/*.h")
+file(GLOB HEADER_FILES_META_GLOB "include/Meta/*.h")
+file(GLOB HEADER_FILES_MYSTUFF_GLOB "include/MyStuff/*.h")
 file(GLOB SOURCE_FILES_GLOB "src/Lazy/*.cpp")
 
 # Source files to compile
@@ -39,14 +41,18 @@ set(SOURCE_FILES
 
 # Header files
 set(HEADER_FILES
-    ${HEADER_FILES_GLOB}
+    ${HEADER_FILES_LEETCODE_GLOB}
+    ${HEADER_FILES_META_GLOB}
+    ${HEADER_FILES_MYSTUFF_GLOB}
 )
 
-# Group source files into different categories
-#source_group("Lazy\\src" FILES ${SOURCE_FILES})
-
 # Group header files into different categories
-#source_group("Lazy\\include" FILES ${HEADER_FILES})
+source_group("LeetCode\\include" FILES ${HEADER_FILES_LEETCODE_GLOB})
+source_group("MetaPuzzles\\include" FILES ${HEADER_FILES_META_GLOB})
+source_group("MyStuff\\include" FILES ${HEADER_FILES_MYSTUFF_GLOB})
+
+# Group source files into different categories
+source_group("MyStuff\\src" FILES ${SOURCE_FILES_GLOB})
 
 # Add project output target (executable or library)
 add_executable(LeetCodeSolutions
@@ -66,7 +72,9 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT L
 target_include_directories(LeetCodeSolutions
 	PUBLIC
 	${CMAKE_CURRENT_LIST_DIR}/include
-    ${CMAKE_CURRENT_LIST_DIR}/include/Lazy
+    ${CMAKE_CURRENT_LIST_DIR}/include/LeetCode
+    ${CMAKE_CURRENT_LIST_DIR}/include/Meta
+    ${CMAKE_CURRENT_LIST_DIR}/include/MyStuff
 )
 
 # Submodules

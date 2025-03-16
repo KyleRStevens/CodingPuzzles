@@ -37,13 +37,13 @@
 
 int main()
 {
-	// 1: Two Sum
+	// LeetCode #1: Two Sum
 	std::vector<int> twoSumTestCase{ 2,7,11,15 };
 	int twoSumTarget = 9;
 	Solution_TwoSum twoSumSolution;
 	auto twoSumResult = twoSumSolution.twoSum(twoSumTestCase, twoSumTarget);
 
-	// 2: Add Two Numbers
+	// LeetCode #2: Add Two Numbers
 	std::vector<ListNode> addTwoNumbersNumber1{ 2, 4, 3 };
 	std::vector<ListNode> addTwoNumbersNumber2{ 5, 6, 4 };
 	for (int i = 0; i < 2; ++i)
@@ -93,7 +93,7 @@ int main()
 	Solution_UniformIntegers uniformIntegersSolution;
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 
-	// Meta Puzzle: Director of Photography 2 (currently passing 34/39 test cases, failing due to speed)
+	// Meta Puzzle: Director of Photography 2
 	std::string directorOfPhotography2Cells = "B...A...P.....P";
 	Solution_DirectorOfPhotography2v5 directorOfPhotography2Solution;
 	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 300'000);
