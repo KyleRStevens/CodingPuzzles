@@ -94,7 +94,7 @@ int main()
 	Solution_StackStabilization stackStabilizationSolution;
 	auto stackStabilizationResult = stackStabilizationSolution.getMinimumDeflatedDiscCount(stackStabilizationDiscs.size(), stackStabilizationDiscs);
 
-	// Meta Puzzle: Uniform Integers (passing 20/33 - 13 wrong answers)
+	// Meta Puzzle: Uniform Integers
 	Solution_UniformIntegers uniformIntegersSolution;
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 

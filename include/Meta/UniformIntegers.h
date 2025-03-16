@@ -10,9 +10,15 @@
 #include <map>
 #include <mutex>
 
-// Solving 20/33 test cases... I have no idea what's wrong yet...
 class Solution_UniformIntegers
 {
+public:
+	enum class Direction
+	{
+		ABOVE,
+		BELOW
+	};
+
 private:
 	void chopUpNumber(long long number, int& mostSignificantDigit, int& maxDigit, int& numDigits, bool& isUniform)
 	{
@@ -22,6 +28,7 @@ private:
 		isUniform = true;
 		const int anyGivenDigit = number % 10;
 
+		// While there are still multiple digits...
 		while (number > 9)
 		{
 			// Get the current least significant digit to update the max digit value
@@ -57,6 +64,69 @@ private:
 		}
 	}
 
+	int countUniformsAboveOrBelow(const long long number, const int numDigits, const Direction direction)
+	{
+		int numUniforms = 0;
+		long long currentUniform = 0;
+
+		// Get the lowest (all 1s) uniform for the current number of digits
+		for (int i = 0; i < numDigits; ++i)
+		{
+			currentUniform *= 10;
+			currentUniform += 1;
+		}
+
+		// For each uniform with this many digits, count up how many are in the desired direction of (or equal to) the input number
+		for (int i = 1; i < 10; ++i)
+		{
+			if (direction == Direction::ABOVE)
+			{
+				// For each uniform with this many digits, count up how many are >= the input number
+				if ((currentUniform * i) >= number)
+				{
+					numUniforms++;
+				}
+			}
+			else // (direction == Direction::BELOW)
+			{
+				// For each uniform with this many digits, count up how many are <= the input number
+				if ((currentUniform * i) <= number)
+				{
+					numUniforms++;
+				}
+			}
+		}
+
+		// Return how many uniforms we counted to be in the desired direction of (or equal to) the input number
+		return numUniforms;
+	}
+
+	int countUniformsBetween(const long long A, const long long B, const int numDigits)
+	{
+		int numUniforms = 0;
+		long long currentUniform = 0;
+
+		// Get the lowest (all 1s) uniform for the current number of digits
+		for (int i = 0; i < numDigits; ++i)
+		{
+			currentUniform *= 10;
+			currentUniform += 1;
+		}
+
+		// For each uniform with this many digits, count up how many are between (or equal to) the input numbers
+		for (int i = 1; i < 10; ++i)
+		{
+			// For each uniform with this many digits, count up how many are >= the input number
+			if ((currentUniform * i) >= A && (currentUniform * i) <= B)
+			{
+				numUniforms++;
+			}
+		}
+
+		// Return how many uniforms we counted to be in the desired direction of (or equal to) the input number
+		return numUniforms;
+	}
+
 public:
 	int getUniformIntegerCountInInterval(long long A, long long B)
 	{
@@ -74,47 +144,21 @@ public:
 		bool isUniformB = false;
 		chopUpNumber(B, mostSignificantDigitInB, maxDigitInB, numDigitsInB, isUniformB);
 
-		// Get the number of uniform ints above A for that many of digits
-		int uniformsAboveA = 9 - mostSignificantDigitInA;
-		if (maxDigitInA <= mostSignificantDigitInA)
-		{
-			uniformsAboveA += 1;
-		}
-
-		// Do the same for B (but them do 9 minus that value to get the number below B - factoring in if the number itself is uniform!)
-		int uniformsBelowB = 0;
-		int uniformsAboveB = 9 - mostSignificantDigitInB;
-		if (maxDigitInB <= mostSignificantDigitInB)
-		{
-			uniformsAboveB += 1;
-		}
-		uniformsBelowB = 9 - uniformsAboveB;
-		if (isUniformB)
-		{
-			// If B is uniform, than it will itself be included even when we flip the direction we're looking (doing the '9 - uniformsAboveB' for changing above to below)
-			uniformsBelowB += 1;
-		}
-
 		// Add in the number of uniform ints for each order of magnitude between A & B
 		int magnitudesBetween = std::abs(numDigitsInB - numDigitsInA); // Technically the abs is unnecessary because the constraints say B >= A
 		magnitudesBetween = std::max(0, magnitudesBetween - 1);
 		int uniformsBetween = 9 * magnitudesBetween; // Each full "magnitude" has 9 uniform ints
 
-		// If the two numbers have the same "magnitude", you don't want to double count their uniform ints
-		int uniformsInEdgeMagnitudes = uniformsAboveA + uniformsBelowB;
+		// New strategy for counting the above and belows of the edge magnitudes
+		int uniformsInEdgeMagnitudes = 0;
 		if (numDigitsInA == numDigitsInB)
 		{
-			// Get the number of items NOT included in the 'above A' section (see below)
-			int uniformsNotAboveA = 9 - uniformsAboveA;
-
-			// Get the number of items NOT included in the 'below B' section (see below)
-			int uniformsNotBelowB = 9 - uniformsBelowB;
-			
-			// Since there is an overlap, count up the items that AREN'T included in the 2 above sections (they'll never overlap), and then we can easily see the number of overlapping items to include by looking at its "inverse" (below)
-			int uniformsNotIncluded = uniformsNotAboveA + uniformsNotBelowB;
-
-			// Then just take the "inverse" of that to get all the overlapped items that ARE included
-			uniformsInEdgeMagnitudes = 9 - uniformsNotIncluded;
+			uniformsInEdgeMagnitudes += countUniformsBetween(A, B, numDigitsInA);
+		}
+		else
+		{
+			uniformsInEdgeMagnitudes += countUniformsAboveOrBelow(A, numDigitsInA, Direction::ABOVE);
+			uniformsInEdgeMagnitudes += countUniformsAboveOrBelow(B, numDigitsInB, Direction::BELOW);
 		}
 
 		// Return the sum of all the uniform section counts
