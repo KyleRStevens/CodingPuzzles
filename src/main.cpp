@@ -25,6 +25,10 @@
 #include "RabbitHole2v2.h"
 #include "DirectorOfPhotography.h"
 #include "DirectorOfPhotography2.h"
+#include "DirectorOfPhotography2v2.h"
+#include "DirectorOfPhotography2v3.h"
+#include "DirectorOfPhotography2v4.h"
+#include "DirectorOfPhotography2v5.h"
 #include "Kaitenzushi.h"
 #include "RotaryLock.h"
 #include "ScoreboardInference.h"
@@ -90,9 +94,9 @@ int main()
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 
 	// Meta Puzzle: Director of Photography 2 (currently passing 34/39 test cases, failing due to speed)
-	std::string directorOfPhotography2Cells = ".PBAAP.B";
-	Solution_DirectorOfPhotography2 directorOfPhotography2Solution;
-	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 3);
+	std::string directorOfPhotography2Cells = "B...A...P.....P";
+	Solution_DirectorOfPhotography2v5 directorOfPhotography2Solution;
+	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 300'000);
 
 	return 0;
 }
