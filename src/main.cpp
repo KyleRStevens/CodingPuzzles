@@ -35,6 +35,7 @@
 #include "ScoreboardInference.h"
 #include "StackStabilization.h"
 #include "UniformIntegers.h"
+#include "Hops.h"
 
 int main()
 {
@@ -97,6 +98,11 @@ int main()
 	// Meta Puzzle: Uniform Integers
 	Solution_UniformIntegers uniformIntegersSolution;
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
+
+	// Meta Puzzle: Hops
+	std::vector<long long> hopsFrogs{ 5, 2, 4 };
+	Solution_Hops hopsSolution;
+	auto hopsResult = hopsSolution.getSecondsRequired(6, hopsFrogs.size(), hopsFrogs);
 
 	// Meta Puzzle: Director of Photography 2
 	std::string directorOfPhotography2Cells = "B...A...P.....P";
