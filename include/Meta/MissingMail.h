@@ -16,61 +16,101 @@
 
 class Solution_MissingMail
 {
+private:
+	double getTableValue(std::vector<int>& values, int day, int packageIndex, double probOfSteal, int costToEnter)
+	{
+		double sum = 0;
+
+		// For each iDay from the day given through the last day
+		for (int iPackage = packageIndex; iPackage <= day; ++iPackage)
+		{
+			// Add in the cumulative expected value of each item from the given day onward
+			sum += (values[iPackage] * std::pow((1 - probOfSteal), day - iPackage));
+		}
+
+		return sum - costToEnter;
+	}
+
 public:
 	double getMaxExpectedProfit(std::vector<int>& values, int costToEnter, double probOfSteal) // O(N)
 	{
-		bool yesterdayWasCollected = true; // Start as true because on day 1, there is no package from yesterday (same as if collected)
-		double currentProfit = 0.0;
-		double yesterdaysExpectedValueFromNotCollecting = 0.0;
-		double runningUncollectedValues = 0.0;
+		double currentProfit = 0;
 
-		// For each day
-		for (int day = 0; day < values.size() - 1; ++day) // O(N)
+		std::vector<std::vector<double>> table;
+		table.resize(values.size());
+
+		// For N iterations
+		for (int i = 0; i < values.size(); ++i) // O(N) => O(N^2)
 		{
-			// Get tomorrow's expected value if collecting today
-			double tommorrowsExpectedValueIfCollecting = (values[day] - costToEnter) + (values[day + 1] - costToEnter);
-
-			// Get tomorrow's expected value if NOT collecting today
-			double tommorrowsExpectedValueIfNotCollecting = ((1 - probOfSteal) * (runningUncollectedValues + values[day])) + values[day + 1] - costToEnter;
-			runningUncollectedValues += (1 - probOfSteal) * values[day];
-
-			// Decide action based on which is higher
-			bool weAreCollecting = tommorrowsExpectedValueIfCollecting >= tommorrowsExpectedValueIfNotCollecting;
-
-			// If collecting:
-			if (weAreCollecting)
+			// For 'i' (the current value of N) days, starting from the last day
+			for (int j = 0; j <= i; ++j) // O(N)
 			{
-				// If yesterday WAS collected:
-				if (yesterdayWasCollected)
-				{
-					// Add in the current collection profit (todays box - C)
-					currentProfit += (values[day] - costToEnter);
-				}
-				else // Yesterday was NOT collected
-				{
-					// Use yesterday's not-collecting expected value to add to running total profit
-					currentProfit += yesterdaysExpectedValueFromNotCollecting;
-				}
+				int day = values.size() - 1 - j;
+				int packageIndex = values.size() - 1 - i;
 
-				// If collecting, reset the running total of uncollected values
-				runningUncollectedValues = 0;
-			}
-
-			// Save todays necessary info for tomorrow
-			yesterdayWasCollected = weAreCollecting;
-			yesterdaysExpectedValueFromNotCollecting = tommorrowsExpectedValueIfNotCollecting;
-		}
-
-		// Factor in last day
-		{
-			double profitFromCollecting = runningUncollectedValues + values[values.size() - 1] - costToEnter;
-			if (profitFromCollecting > 0)
-			{
-				currentProfit += profitFromCollecting;
+				double currentValue = getTableValue(values, day, packageIndex, probOfSteal, costToEnter);
+				table[i].push_back(currentValue);
 			}
 		}
 
-		// Write your code here
+		// For each row in the table...
+		int row = 0;
+		int prevCol = -1;
+		while (row < table.size() - 1)
+		{
+			// A = the last entry in row 'i'
+			int lastColInThisRow = table[row].size() - 1;
+			if (prevCol != -1)
+			{
+				lastColInThisRow = prevCol;
+			}
+			double A = table[row][lastColInThisRow];
+
+			// B = the last entry in row 'i+1'
+			int lastColInNextRow = table[row + 1].size() - 1;
+			double B = table[row + 1][lastColInNextRow];
+				
+			// If A + B >= row of 'B', col of 'A'
+			if (A + B >= table[row + 1][lastColInThisRow])
+			{
+				// Add A to total profit if positve
+				if (A > 0)
+				{
+					currentProfit += A;
+				}
+
+				// Reset the prevCol
+				prevCol = -1;
+			}
+			else
+			{
+				// Use prevCol in next A instead of the last col of the row
+				prevCol = lastColInThisRow;
+			}
+
+			// Move to next row
+			row++;
+		}
+
+		// Include the last row
+		if (prevCol != -1)
+		{
+			// Only add to profit if the value is positive?
+			if (table[row][prevCol] > 0)
+			{
+				currentProfit += table[row][prevCol];
+			}
+		}
+		else
+		{
+			// Only add to profit if the value is positive?
+			if (table[row][table[row].size() - 1] > 0)
+			{
+				currentProfit += table[row][table[row].size() - 1];
+			}
+		}
+
+		// Return the summed max profit
 		return currentProfit;
 	}
 };
