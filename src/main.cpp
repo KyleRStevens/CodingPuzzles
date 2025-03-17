@@ -22,13 +22,7 @@
 
 // 1st Party - Meta Puzzles Stuff
 #include "Cafeteria.h"
-#include "RabbitHole2.h"
-#include "RabbitHole2v2.h"
 #include "DirectorOfPhotography.h"
-#include "DirectorOfPhotography2.h"
-#include "DirectorOfPhotography2v2.h"
-#include "DirectorOfPhotography2v3.h"
-#include "DirectorOfPhotography2v4.h"
 #include "DirectorOfPhotography2v5.h"
 #include "Kaitenzushi.h"
 #include "RotaryLock.h"
@@ -38,6 +32,8 @@
 #include "Hops.h"
 #include "MissingMail.h"
 #include "Portals.h"
+#include "RabbitHole.h"
+#include "RabbitHole2v2.h"
 
 int main()
 {
@@ -117,16 +113,6 @@ int main()
 	auto missingMailResult = missingMailSolution.getMaxExpectedProfit(missingMailValues, 3, 0.15);
 
 	// Meta Puzzle: Portals
-	std::vector<std::vector<char>> portalsGrid{ 
-		{'.', 'E', '.'},
-		{'.', '#', 'E'},
-		{'.', 'S', '#'}
-	};
-	std::vector<std::vector<char>> portalsGrid2{
-		{'a', '.', 'S', 'a'},
-		{'#', '#', '#', '#'},
-		{'E', 'b', '.', 'b'}
-	};
 	std::vector<std::vector<char>> portalsGrid3{
 		{'a', 'S', '.', 'b'},
 		{'#', '#', '#', '#'},
@@ -134,6 +120,11 @@ int main()
 	};
 	Solution_Portals portalsSolution;
 	auto portalsResult = portalsSolution.getSecondsRequired(portalsGrid3);
+
+	// Meta Puzzle: Rabbit Hole
+	std::vector<int> rabbitHoleLinks{ 2, 4, 2, 2, 3 };
+	Solution_RabbitHole rabbitHoleSolution;
+	auto rabbitHoleResult = rabbitHoleSolution.getMaxVisitableWebpages(5, rabbitHoleLinks);
 
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
