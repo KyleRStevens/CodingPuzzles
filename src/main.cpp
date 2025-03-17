@@ -37,6 +37,7 @@
 #include "UniformIntegers.h"
 #include "Hops.h"
 #include "MissingMail.h"
+#include "Portals.h"
 
 int main()
 {
@@ -114,6 +115,25 @@ int main()
 	std::vector<int> missingMailValues{ 10, 2, 8, 6, 4 };
 	Solution_MissingMail missingMailSolution;
 	auto missingMailResult = missingMailSolution.getMaxExpectedProfit(missingMailValues, 3, 0.15);
+
+	// Meta Puzzle: Portals
+	std::vector<std::vector<char>> portalsGrid{ 
+		{'.', 'E', '.'},
+		{'.', '#', 'E'},
+		{'.', 'S', '#'}
+	};
+	std::vector<std::vector<char>> portalsGrid2{
+		{'a', '.', 'S', 'a'},
+		{'#', '#', '#', '#'},
+		{'E', 'b', '.', 'b'}
+	};
+	std::vector<std::vector<char>> portalsGrid3{
+		{'a', 'S', '.', 'b'},
+		{'#', '#', '#', '#'},
+		{'E', 'b', '.', 'a'}
+	};
+	Solution_Portals portalsSolution;
+	auto portalsResult = portalsSolution.getSecondsRequired(portalsGrid3);
 
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
