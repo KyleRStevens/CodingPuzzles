@@ -36,6 +36,7 @@
 #include "StackStabilization.h"
 #include "UniformIntegers.h"
 #include "Hops.h"
+#include "MissingMail.h"
 
 int main()
 {
@@ -99,15 +100,21 @@ int main()
 	Solution_UniformIntegers uniformIntegersSolution;
 	auto uniformIntegersResult = uniformIntegersSolution.getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 
+	// Meta Puzzle: Director of Photography 2
+	std::string directorOfPhotography2Cells = "B...A...P.....P";
+	Solution_DirectorOfPhotography2v5 directorOfPhotography2Solution;
+	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 300'000);
+
 	// Meta Puzzle: Hops
 	std::vector<long long> hopsFrogs{ 5, 2, 4 };
 	Solution_Hops hopsSolution;
 	auto hopsResult = hopsSolution.getSecondsRequired(6, hopsFrogs.size(), hopsFrogs);
 
-	// Meta Puzzle: Director of Photography 2
-	std::string directorOfPhotography2Cells = "B...A...P.....P";
-	Solution_DirectorOfPhotography2v5 directorOfPhotography2Solution;
-	auto directorOfPhotography2Result = directorOfPhotography2Solution.getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 300'000);
+	// Meta Puzzle: Missing Mail
+	std::vector<int> missingMailValues{ 10, 2, 8, 6, 4 };
+	Solution_MissingMail missingMailSolution;
+	auto missingMailResult = missingMailSolution.getMaxExpectedProfit(missingMailValues, 3, 0.15);
+
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
 	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
