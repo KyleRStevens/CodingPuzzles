@@ -1,5 +1,5 @@
-# LeetCodeSolutions
-Storing all of my solutions to LeetCode problems in one place for reference.
+# CodingPuzzles
+Storing all of my blind solutions to LeetCode problems, Meta Puzzles, and so on. Also some data structures and algorithms practice.
 
 Currently supports Windows. Setup scripts support Visual Studio 2017-2022.
 
