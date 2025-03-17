@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0...3.31.3)
-project(LeetCodeSolutions VERSION 0.1.0)
+project(CodingPuzzles VERSION 0.1.0)
 
 
 ###############
@@ -55,21 +55,21 @@ source_group("MyStuff\\include" FILES ${HEADER_FILES_MYSTUFF_GLOB})
 source_group("MyStuff\\src" FILES ${SOURCE_FILES_GLOB})
 
 # Add project output target (executable or library)
-add_executable(LeetCodeSolutions
+add_executable(CodingPuzzles
     ${SOURCE_FILES}
 
     ${HEADER_FILES}
 )
 
 # Set the subsystem
-set_target_properties(LeetCodeSolutions PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
-#set_target_properties(LeetCodeSolutions PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+set_target_properties(CodingPuzzles PROPERTIES LINK_FLAGS "/SUBSYSTEM:CONSOLE")
+#set_target_properties(CodingPuzzles PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 
 # Set the Startup Project
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LeetCodeSolutions)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CodingPuzzles)
 
 # Include Directories
-target_include_directories(LeetCodeSolutions
+target_include_directories(CodingPuzzles
 	PUBLIC
 	${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/include/LeetCode
@@ -79,13 +79,13 @@ target_include_directories(LeetCodeSolutions
 
 # Submodules
 #add_subdirectory(dependencies/Example)
-#target_link_libraries(LeetCodeSolutions PRIVATE Example)
+#target_link_libraries(CodingPuzzles PRIVATE Example)
 
 # Third-party library directories
 #link_directories(lib)
 
 # Third-party libraries to link
-target_link_libraries(LeetCodeSolutions
+target_link_libraries(CodingPuzzles
     PRIVATE
     #Example
 )
@@ -108,7 +108,7 @@ install(
 
 # Install the library to the respective subfolder based on the configuration
 install(
-    TARGETS LeetCodeSolutions
+    TARGETS CodingPuzzles
     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
 )
 
