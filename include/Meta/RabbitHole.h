@@ -18,7 +18,8 @@ private:
 	int m_maxDepth = 1;
 
 private:
-	const int MAX_VISITS = 1;
+	const int MAX_LINK_VISITS = 1;
+	const int MAX_PAGE_VISITS = 1;
 
 private:
 	struct Link
@@ -69,7 +70,7 @@ public:
 				for (Link& link : pCurrentPage->links) // O(L)
 				{
 					// Check if the link is valid to visit
-					if (link.visitCount < MAX_VISITS)
+					if (link.visitCount < MAX_LINK_VISITS)
 					{
 						// If so, visit the link
 						link.visitCount++;
@@ -128,7 +129,7 @@ public:
 			for (Link& link : pCurrentPage->links) // O(L)
 			{
 				// Check if the link is valid to visit
-				if (link.visitCount < MAX_VISITS)
+				if (link.visitCount < MAX_LINK_VISITS)
 				{
 					// If so, visit the link
 					link.visitCount++;

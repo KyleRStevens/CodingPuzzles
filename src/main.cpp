@@ -34,6 +34,7 @@
 #include "Portals.h"
 #include "RabbitHole.h"
 #include "RabbitHole2v2.h"
+#include "RotaryLock2.h"
 
 int main()
 {
@@ -121,10 +122,15 @@ int main()
 	Solution_Portals portalsSolution;
 	auto portalsResult = portalsSolution.getSecondsRequired(portalsGrid3);
 
-	// Meta Puzzle: Rabbit Hole
+	// Meta Puzzle: Rabbit Hole (passing 6/18 - 11 time limited, 1 wrong answer)
 	std::vector<int> rabbitHoleLinks{ 2, 4, 2, 2, 3 };
 	Solution_RabbitHole rabbitHoleSolution;
 	auto rabbitHoleResult = rabbitHoleSolution.getMaxVisitableWebpages(5, rabbitHoleLinks);
+
+	// Meta Puzzle: Rotary Lock
+	std::vector<int> rotaryLock2Code{ 9, 4, 4, 8 };
+	Solution_RotaryLock2 rotaryLock2Solution;
+	auto rotaryLock2Result = rotaryLock2Solution.getMinCodeEntryTime(10, rotaryLock2Code.size(), rotaryLock2Code);
 
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
