@@ -35,6 +35,7 @@
 #include "RabbitHole.h"
 #include "RabbitHole2v2.h"
 #include "RotaryLock2.h"
+#include "ScoreboardInference2.h"
 
 int main()
 {
@@ -127,10 +128,70 @@ int main()
 	Solution_RabbitHole rabbitHoleSolution;
 	auto rabbitHoleResult = rabbitHoleSolution.getMaxVisitableWebpages(5, rabbitHoleLinks);
 
-	// Meta Puzzle: Rotary Lock
-	std::vector<int> rotaryLock2Code{ 9, 4, 4, 8 };
+	// Meta Puzzle: Rotary Lock 2 (passing 3/22 - not sure how this is not NP-Hard as it is essentially an even more complex version of TSP..?)
+	std::vector<int> rotaryLock2Code{ 5, 4, 5, 4, 5, 4, 2 };
 	Solution_RotaryLock2 rotaryLock2Solution;
 	auto rotaryLock2Result = rotaryLock2Solution.getMinCodeEntryTime(10, rotaryLock2Code.size(), rotaryLock2Code);
+
+	// Meta Puzzle: Scoreboard Inference (passing 23/35 - 12 wrong answers)
+	Solution_ScoreboardInference2 scoreboardInference2Solution;
+	std::vector<int> scoreboardInference2Scores{};
+	for (int num5s = 0; num5s < 2; ++num5s)
+	{
+		for (int num4s = 0; num4s < 2; ++num4s)
+		{
+			for (int num3s = 0; num3s < 2; ++num3s)
+			{
+				for (int num2s = 0; num2s < 2; ++num2s)
+				{
+					for (int num1s = 0; num1s < 2; ++num1s)
+					{
+						// Add 1s
+						for (int i = 0; i < num1s; ++i)
+						{
+							scoreboardInference2Scores.push_back(1);
+						}
+
+						// Add 2s
+						for (int i = 0; i < num2s; ++i)
+						{
+							scoreboardInference2Scores.push_back(2);
+						}
+
+						// Add 3s
+						for (int i = 0; i < num3s; ++i)
+						{
+							scoreboardInference2Scores.push_back(3);
+						}
+
+						// Add 4s
+						for (int i = 0; i < num4s; ++i)
+						{
+							scoreboardInference2Scores.push_back(4);
+						}
+
+						// Add 5s
+						for (int i = 0; i < num5s; ++i)
+						{
+							scoreboardInference2Scores.push_back(5);
+						}
+
+						// Run test
+						auto scoreboardInference2Result = scoreboardInference2Solution.getMinProblemCount(scoreboardInference2Scores.size(), scoreboardInference2Scores);
+						std::cout << scoreboardInference2Result << ": ";
+						for (auto& score : scoreboardInference2Scores)
+						{
+							std::cout << score << " ";
+						}
+						std::cout << std::endl;
+
+						// Clear vector
+						scoreboardInference2Scores.clear();
+					}
+				}
+			}
+		}
+	}
 
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
