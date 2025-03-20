@@ -135,7 +135,7 @@ int main()
 	Solution_RotaryLock2 rotaryLock2Solution;
 	auto rotaryLock2Result = rotaryLock2Solution.getMinCodeEntryTime(10, rotaryLock2Code.size(), rotaryLock2Code);
 
-	// Meta Puzzle: Scoreboard Inference (passing 24/35 - 11 wrong answers????)
+	// Meta Puzzle: Scoreboard Inference (passing 28/35 - 7 wrong answers)
 	Solution_ScoreboardInference2 scoreboardInference2Solution;
 	std::vector<int> scoreboardInference2Scores{};
 	for (int num6s = 0; num6s < 2; ++num6s)

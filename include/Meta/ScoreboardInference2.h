@@ -37,7 +37,7 @@ private:
 		{0,	1,	0,	1,	1,	0,	1},
 		{0,	1,	0,	1,	1,	1,	2},
 		{0,	1,	1,	0,	0,	1,	2},
-		{0,	1,	1,	0,	1,	0,	2}, //
+		{0,	1,	1,	0,	1,	0,	2},
 		{0,	1,	1,	0,	1,	1,	2},
 		{0,	1,	1,	1,	0,	0,	1},
 		{0,	1,	1,	1,	0,	1,	2},
@@ -178,11 +178,26 @@ public:
 		for (int i = 0; i < S.size(); ++i) // O(N)
 		{
 			// Keep track of the highest scores (excluding duplicates)
-			if (S[i] > highestScore) // TODO: This doesn't actually garuntee the second and third highest scores dummy!
+			if (S[i] > thirdHighestScore)
 			{
-				thirdHighestScore = secondHighestScore;
-				secondHighestScore = highestScore;
-				highestScore = S[i];
+				if (S[i] > secondHighestScore)
+				{
+					if (S[i] > highestScore)
+					{
+						thirdHighestScore = secondHighestScore;
+						secondHighestScore = highestScore;
+						highestScore = S[i];
+					}
+					else if (S[i] != highestScore)
+					{
+						thirdHighestScore = secondHighestScore;
+						secondHighestScore = S[i];
+					}
+				}
+				else if (S[i] != secondHighestScore)
+				{
+					thirdHighestScore = S[i];
+				}
 			}
 
 			// Flag scenarios we're interested in
