@@ -178,7 +178,7 @@ public:
 		for (int i = 0; i < S.size(); ++i) // O(N)
 		{
 			// Keep track of the highest scores (excluding duplicates)
-			if (S[i] > highestScore)
+			if (S[i] > highestScore) // TODO: This doesn't actually garuntee the second and third highest scores dummy!
 			{
 				thirdHighestScore = secondHighestScore;
 				secondHighestScore = highestScore;

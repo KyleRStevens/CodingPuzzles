@@ -37,6 +37,7 @@
 #include "RotaryLock2.h"
 #include "ScoreboardInference2.h"
 #include "TunnelTime.h"
+#include "BossFight.h"
 
 int main()
 {
@@ -210,6 +211,12 @@ int main()
 	std::vector<long long> tunnelTimeTunnelsA{ 1 };
 	std::vector<long long> tunnelTimeTunnelsB{ 2 };
 	auto tunnelTimeResult = tunnelTimeSolution.getSecondsElapsed(3, tunnelTimeTunnelsA, tunnelTimeTunnelsB, 1);
+
+	// Meta Puzzle: Boss Fight
+	Solution_BossFight bossFightSolution;
+	std::vector<int> bossFightWarriorHealth{ 1, 1, 2, 100 };
+	std::vector<int> bossFightWarriorDamage{ 1, 2, 1,   3 };
+	auto bossFightResult = bossFightSolution.getMaxDamageDealt(bossFightWarriorHealth, bossFightWarriorDamage, 8);
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
 	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
