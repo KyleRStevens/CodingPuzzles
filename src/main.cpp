@@ -36,6 +36,7 @@
 #include "RabbitHole2v2.h"
 #include "RotaryLock2.h"
 #include "ScoreboardInference2.h"
+#include "TunnelTime.h"
 
 int main()
 {
@@ -203,6 +204,12 @@ int main()
 	}
 	scoreboardInference2Scores = { 4, 3, 3, 4 };
 	auto scoreboardInference2Result = scoreboardInference2Solution.getMinProblemCount(scoreboardInference2Scores.size(), scoreboardInference2Scores);
+
+	// Meta Puzzle: Tunnel Time
+	Solution_TunnelTime tunnelTimeSolution;
+	std::vector<long long> tunnelTimeTunnelsA{ 39, 19, 28 };
+	std::vector<long long> tunnelTimeTunnelsB{ 49, 27, 35 };
+	auto tunnelTimeResult = tunnelTimeSolution.getSecondsElapsed(50, tunnelTimeTunnelsA, tunnelTimeTunnelsB, 15);
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
 	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
