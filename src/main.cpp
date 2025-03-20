@@ -207,9 +207,9 @@ int main()
 
 	// Meta Puzzle: Tunnel Time
 	Solution_TunnelTime tunnelTimeSolution;
-	std::vector<long long> tunnelTimeTunnelsA{ 39, 19, 28 };
-	std::vector<long long> tunnelTimeTunnelsB{ 49, 27, 35 };
-	auto tunnelTimeResult = tunnelTimeSolution.getSecondsElapsed(50, tunnelTimeTunnelsA, tunnelTimeTunnelsB, 15);
+	std::vector<long long> tunnelTimeTunnelsA{ 1 };
+	std::vector<long long> tunnelTimeTunnelsB{ 2 };
+	auto tunnelTimeResult = tunnelTimeSolution.getSecondsElapsed(3, tunnelTimeTunnelsA, tunnelTimeTunnelsB, 1);
 
 	// Meta Puzzle: Rabbit Hole 2 (passing 10/22 - 7 wrong answers, 5 time limited)
 	//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };

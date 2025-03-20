@@ -29,7 +29,7 @@ private:
         int iLeft = 0;
         int iRight = tunnels.size() - 1;
 
-        while (iLeft < iRight)
+        while (iLeft <= iRight)
         {
             int iMiddle = ((iRight - iLeft) / 2) + iLeft;
             Tunnel& tunnel = tunnels[iMiddle];
@@ -44,6 +44,11 @@ private:
             {
                 iRight = iMiddle - 1;
             }
+            else if (remainderTime == tunnel.collapsedStartPosition)
+            {
+                // Return the found tunnel
+                return tunnels[iMiddle - 1];
+            }
             else // (remainderTime > tunnelCollapsedEndPosition)
             {
                 iLeft = iMiddle + 1;
@@ -55,8 +60,11 @@ private:
     }
 
 public:
-    long long getSecondsElapsed(long long C, std::vector<long long>& A, std::vector<long long>& B, long long K)
+    long long getSecondsElapsed(long long C, std::vector<long long>& A, std::vector<long long>& B, long long K) // O(N*logN)
     {
+        long long secondsElapsed = 0;
+
+        // Create a container for the tunnel data
         std::vector<Tunnel> tunnels;
         tunnels.resize(A.size());
 
@@ -85,16 +93,29 @@ public:
         long long tunnelTimePerCycle = currentStartPosition;
 
         // Determine number of cycles needed to reach K tunnel time (floor)
-        long long numCycles = K / tunnelTimePerCycle;
+        long long numCycles = (K / tunnelTimePerCycle);
+        if (K % tunnelTimePerCycle == 0)
+        {
+            // We have to subtract a cycle if the desired tunnel time is an even multiple of the tunnelTimePerCycle or else it will look like we need to finish the last full cycle instead of stopping at the end of the last tunnel
+            numCycles--;
+        }
+        secondsElapsed += (numCycles * C);
 
-        // Search sorted/collapsed tunnel list for tunnel that reaches K
-        long long remainderTime = K - (numCycles * tunnelTimePerCycle);
-        Tunnel& tunnel = findTunnel(remainderTime, tunnels);
+        // Get the remaining desired tunnel time after the whole number of full cycles has been completed (if none, we already have our answer)
+        long long remainingTunnelTime = K - (numCycles * tunnelTimePerCycle);
+        if (remainingTunnelTime > 0)
+        {
+            // Search sorted/collapsed tunnel list for tunnel that reaches K
+            Tunnel& tunnel = findTunnel(remainingTunnelTime, tunnels); // O(logN)
 
-        // Determine the track position of that spot in the tunnel
-        long long requiredExtraTime = tunnel.trueStartPosition + (remainderTime - tunnel.collapsedStartPosition);
+            // Determine the track position of that spot in the tunnel
+            long long requiredExtraTravelTime = tunnel.trueStartPosition + (remainingTunnelTime - tunnel.collapsedStartPosition);
+
+            // Add the extra time to our elapsed time
+            secondsElapsed += requiredExtraTravelTime;
+        }
 
         // Return the total driving time required to reach the desired tunnel time
-        return (numCycles * C) + requiredExtraTime;
+        return secondsElapsed;
     }
 };
