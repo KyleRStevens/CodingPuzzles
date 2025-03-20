@@ -12,75 +12,217 @@
 
 class Solution_ScoreboardInference2
 {
+private:
+	std::vector<std::vector<int>> extrasTable{
+		{0,	0,	0,	0,	0,	0,	0},
+		{0,	0,	0,	0,	0,	1,	1},
+		{0,	0,	0,	0,	1,	0,	1},
+		{0,	0,	0,	0,	1,	1,	2},
+		{0,	0,	0,	1,	0,	0,	0},
+		{0,	0,	0,	1,	0,	1,	1},
+		{0,	0,	0,	1,	1,	0,	1},
+		{0,	0,	0,	1,	1,	1,	2},
+		{0,	0,	1,	0,	0,	1,	1},
+		{0,	0,	1,	0,	1,	0,	1},
+		{0,	0,	1,	0,	1,	1,	2},
+		{0,	0,	1,	1,	0,	0,	1},
+		{0,	0,	1,	1,	0,	1,	1},
+		{0,	0,	1,	1,	1,	0,	2},
+		{0,	0,	1,	1,	1,	1,	2},
+		{0,	1,	0,	0,	0,	1,	2},
+		{0,	1,	0,	0,	1,	0,	1},
+		{0,	1,	0,	0,	1,	1,	2},
+		{0,	1,	0,	1,	0,	0,	1},
+		{0,	1,	0,	1,	0,	1,	2},
+		{0,	1,	0,	1,	1,	0,	1},
+		{0,	1,	0,	1,	1,	1,	2},
+		{0,	1,	1,	0,	0,	1,	2},
+		{0,	1,	1,	0,	1,	0,	2}, //
+		{0,	1,	1,	0,	1,	1,	2},
+		{0,	1,	1,	1,	0,	0,	1},
+		{0,	1,	1,	1,	0,	1,	2},
+		{0,	1,	1,	1,	1,	0,	2},
+		{0,	1,	1,	1,	1,	1,	2},
+		{1,	0,	0,	0,	0,	1,	1},
+		{1,	0,	0,	0,	1,	0,	1},
+		{1,	0,	0,	0,	1,	1,	2},
+		{1,	0,	0,	1,	0,	0,	0},
+		{1,	0,	0,	1,	0,	1,	1},
+		{1,	0,	0,	1,	1,	0,	1},
+		{1,	0,	0,	1,	1,	1,	2},
+		{1,	0,	1,	0,	0,	1,	1},
+		{1,	0,	1,	0,	1,	0,	1},
+		{1,	0,	1,	0,	1,	1,	2},
+		{1,	0,	1,	1,	0,	0,	1},
+		{1,	0,	1,	1,	0,	1,	1},
+		{1,	0,	1,	1,	1,	0,	2},
+		{1,	0,	1,	1,	1,	1,	2},
+		{1,	1,	0,	0,	0,	1,	2},
+		{1,	1,	0,	0,	1,	0,	1},
+		{1,	1,	0,	0,	1,	1,	2},
+		{1,	1,	0,	1,	0,	0,	1},
+		{1,	1,	0,	1,	0,	1,	2},
+		{1,	1,	0,	1,	1,	0,	1},
+		{1,	1,	0,	1,	1,	1,	2},
+		{1,	1,	1,	0,	0,	1,	0},
+		{1,	1,	1,	0,	1,	0,	2},
+		{1,	1,	1,	0,	1,	1,	2},
+		{1,	1,	1,	1,	0,	0,	1},
+		{1,	1,	1,	1,	0,	1,	2},
+		{1,	1,	1,	1,	1,	0,	2},
+		{1,	1,	1,	1,	1,	1,	2},
+	};
+
+private:
+	int getExtraRequiredProblems(int remainder0Count, int remainder1Count, int remainder2Count, int highestScore, int secondHighestScore, int thirdHighestScore)
+	{
+		int extraProblemsRequired = 0;
+
+		bool r0InLast = false;
+		bool r1InLast = false;
+		bool r2InLast = false;
+		bool r0OutsideOfLast = false;
+		bool r1OutsideOfLast = false;
+		bool r2OutsideOfLast = false;
+
+		// Set the flags for the last group (the group of 3 susequent numbers starting from the largest multiple of 3 at or below the highest number)
+		if (highestScore % 3 == 0)
+		{
+			r0InLast = true;
+		}
+		else if (highestScore % 3 == 1)
+		{
+			r1InLast = true;
+
+			if (secondHighestScore == highestScore - 1)
+			{
+				r0InLast = true;
+			}
+		}
+		else if (highestScore % 3 == 2)
+		{
+			r2InLast = true;
+
+			if (secondHighestScore == highestScore - 2)
+			{
+				r0InLast = true;
+			}
+			else if (secondHighestScore == highestScore - 1)
+			{
+				r1InLast = true;
+
+				if (thirdHighestScore == highestScore - 2)
+				{
+					r0InLast = true;
+				}
+			}
+		}
+
+		// Set the flags for the rest of the table values
+		if ((remainder0Count > 1) || (remainder0Count == 1 && r0InLast == false))
+		{
+			r0OutsideOfLast = true;
+		}
+		if ((remainder1Count > 1) || (remainder1Count == 1 && r1InLast == false))
+		{
+			r1OutsideOfLast = true;
+		}
+		if ((remainder2Count > 1) || (remainder2Count == 1 && r2InLast == false))
+		{
+			r2OutsideOfLast = true;
+		}
+
+		// Search the table for the correct output value number of extra problems (this will have to do for now)
+		//for (auto& row : extrasTable)
+		for (int row = 0; row < extrasTable.size(); ++row)
+		{
+			bool testPassed = true;
+			int testRow[] = {r0OutsideOfLast, r1OutsideOfLast, r2OutsideOfLast, r0InLast, r1InLast, r2InLast};
+			for (int col = 0; col < 6; ++col)
+			{
+				if (extrasTable[row][col] != testRow[col])
+				{
+					testPassed = false;
+					break;
+				}
+			}
+
+			if (testPassed)
+			{
+				//std::cout << "Table row: " << row << " used" << std::endl;
+				extraProblemsRequired = extrasTable[row][6];
+				break;
+			}
+		}
+
+		return extraProblemsRequired;
+	}
+
 public:
 	int getMinProblemCount(int N, std::vector<int>& S) // O(N)
 	{
 		int minProblemCount = 0;
 
-		bool allNumbersDivisibleBy3 = true;
-		bool remainder1Found = false;
-		bool remainder2Found = false;
+		int remainder0Count = 0;
+		int remainder1Count = 0;
+		int remainder2Count = 0;
 
-		// Find the max score & next highest score (and flagging special conditions)
-		int maxScore = 0;
-		int secondToMaxScore = 0;
-		int thirdToMaxScore = 0;
+		int prevRemainder0Number = 0;
+		int prevRemainder1Number = 0;
+		int prevRemainder2Number = 0;
+
+		// Go through each known score
+		int highestScore = 0;
+		int secondHighestScore = 0;
+		int thirdHighestScore = 0;
 		for (int i = 0; i < S.size(); ++i) // O(N)
 		{
-			// Keep updating the max
-			if (S[i] > maxScore)
+			// Keep track of the highest scores (excluding duplicates)
+			if (S[i] > highestScore)
 			{
-				thirdToMaxScore = secondToMaxScore;
-				secondToMaxScore = maxScore;
-				maxScore = S[i];
+				thirdHighestScore = secondHighestScore;
+				secondHighestScore = highestScore;
+				highestScore = S[i];
 			}
 
-			// Check if there are numbers that are 'non-divisible by 3' OR 'non-divisible by 3 or 2'
-			if (S[i] % 3 != 0)
+			// Flag scenarios we're interested in
+			switch (S[i] % 3)
 			{
-				allNumbersDivisibleBy3 = false;
-
-				if (S[i] % 3 == 1)
+			case 0:
+				if (S[i] != prevRemainder0Number)
 				{
-					remainder1Found = true;
+					// The counter doesn't actually need to be accurate - we just need to know if there are multiple DIFFERENT numbers with this remainder
+					remainder0Count++;
 				}
-				else // (S[i] % 3 == 2)
+				break;
+
+			case 1:
+				if (S[i] != prevRemainder1Number)
 				{
-					remainder2Found = true;
+					// The counter doesn't actually need to be accurate - we just need to know if there are multiple DIFFERENT numbers with this remainder
+					remainder1Count++;
 				}
+				break;
+
+			case 2:
+				if (S[i] != prevRemainder2Number)
+				{
+					// The counter doesn't actually need to be accurate - we just need to know if there are multiple DIFFERENT numbers with this remainder
+					remainder2Count++;
+				}
+				break;
+
+			default:
+				// This should never occur
+				break;
 			}
 		}
 
-		// Determine if all 'non-divisible by 3' numbers have the same remainder (when dividing by 3)
-		bool allNumbersNotDivisibleBy3ShareTheSameRemainder = (remainder1Found != remainder2Found);
+		// Get the base amount of problems required
+		minProblemCount = highestScore / 3;
 
-		// If there is a 'non-divisible by 3' number in the list, the result is (max score / 2) + 1
-		if (allNumbersDivisibleBy3)
-		{
-			// If there are no 'non-divisible by 3' numbers, the result is just (max score / 3)
-			minProblemCount = maxScore / 3;
-		}
-		else if (allNumbersNotDivisibleBy3ShareTheSameRemainder)
-		{
-			// If there are 'non-divisible by 3' numbers AND they all have the same remainder (when dividing by 3), only 1 additional problem is required
-			minProblemCount = (maxScore / 3) + 1;
-		}
-		else
-		{
-			// If there are 'non-divisible by 3' numbers AND they do NOT all share the same remainder (when dividing by 3), 2 additional problems are required
-			int num3s = (maxScore / 3);
-			if (maxScore % 3 == 0)
-			{
-				num3s--;
-			}
-			else if (maxScore % 3 == 1 && maxScore - 2 == secondToMaxScore && maxScore - 3 != thirdToMaxScore)
-			{
-				// Special case - in this scenario, it is "cheaper" to use a second 2-point question rather than needlessly having a 3-point question and a 1-point question
-				// If there is a remainder of 2 num, a remainder of 1 number, and the remainder of 1 number is the max and 2 above the remainder of 2 number, then --1
-				num3s--;
-			}
-			minProblemCount = num3s + 2;
-		}
+		// Get the extra amount of required problems
+		minProblemCount += getExtraRequiredProblems(remainder0Count, remainder1Count, remainder2Count, highestScore, secondHighestScore, thirdHighestScore);
 
 		// Return the inferred min problem count
 		return minProblemCount;
