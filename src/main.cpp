@@ -138,72 +138,76 @@ int main()
 	// Meta Puzzle: Scoreboard Inference (passing 28/35 - 7 wrong answers)
 	Solution_ScoreboardInference2 scoreboardInference2Solution;
 	std::vector<int> scoreboardInference2Scores{};
-	for (int num6s = 0; num6s < 2; ++num6s)
+	bool generateAllTestsUpToSix = false;
+	if (generateAllTestsUpToSix)
 	{
-		for (int num5s = 0; num5s < 2; ++num5s)
+		for (int num6s = 0; num6s < 2; ++num6s)
 		{
-			for (int num4s = 0; num4s < 2; ++num4s)
+			for (int num5s = 0; num5s < 2; ++num5s)
 			{
-				for (int num3s = 0; num3s < 2; ++num3s)
+				for (int num4s = 0; num4s < 2; ++num4s)
 				{
-					for (int num2s = 0; num2s < 2; ++num2s)
+					for (int num3s = 0; num3s < 2; ++num3s)
 					{
-						for (int num1s = 0; num1s < 2; ++num1s)
+						for (int num2s = 0; num2s < 2; ++num2s)
 						{
-							// Add 1s
-							for (int i = 0; i < num1s; ++i)
+							for (int num1s = 0; num1s < 2; ++num1s)
 							{
-								scoreboardInference2Scores.push_back(1);
-							}
+								// Add 1s
+								for (int i = 0; i < num1s; ++i)
+								{
+									scoreboardInference2Scores.push_back(1);
+								}
 
-							// Add 2s
-							for (int i = 0; i < num2s; ++i)
-							{
-								scoreboardInference2Scores.push_back(2);
-							}
+								// Add 2s
+								for (int i = 0; i < num2s; ++i)
+								{
+									scoreboardInference2Scores.push_back(2);
+								}
 
-							// Add 3s
-							for (int i = 0; i < num3s; ++i)
-							{
-								scoreboardInference2Scores.push_back(3);
-							}
+								// Add 3s
+								for (int i = 0; i < num3s; ++i)
+								{
+									scoreboardInference2Scores.push_back(3);
+								}
 
-							// Add 4s
-							for (int i = 0; i < num4s; ++i)
-							{
-								scoreboardInference2Scores.push_back(4);
-							}
+								// Add 4s
+								for (int i = 0; i < num4s; ++i)
+								{
+									scoreboardInference2Scores.push_back(4);
+								}
 
-							// Add 5s
-							for (int i = 0; i < num5s; ++i)
-							{
-								scoreboardInference2Scores.push_back(5);
-							}
+								// Add 5s
+								for (int i = 0; i < num5s; ++i)
+								{
+									scoreboardInference2Scores.push_back(5);
+								}
 
-							// Add 6s
-							for (int i = 0; i < num6s; ++i)
-							{
-								scoreboardInference2Scores.push_back(6);
-							}
+								// Add 6s
+								for (int i = 0; i < num6s; ++i)
+								{
+									scoreboardInference2Scores.push_back(6);
+								}
 
-							// Run test
-							auto scoreboardInference2Result = scoreboardInference2Solution.getMinProblemCount(scoreboardInference2Scores.size(), scoreboardInference2Scores);
-							std::cout << scoreboardInference2Result << ": ";
-							for (auto& score : scoreboardInference2Scores)
-							{
-								std::cout << score << " ";
-							}
-							std::cout << std::endl;
+								// Run test
+								auto scoreboardInference2Result = scoreboardInference2Solution.getMinProblemCount(scoreboardInference2Scores.size(), scoreboardInference2Scores);
+								std::cout << scoreboardInference2Result << ": ";
+								for (auto& score : scoreboardInference2Scores)
+								{
+									std::cout << score << " ";
+								}
+								std::cout << std::endl;
 
-							// Clear vector
-							scoreboardInference2Scores.clear();
+								// Clear vector
+								scoreboardInference2Scores.clear();
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-	scoreboardInference2Scores = { 4, 3, 3, 4 };
+	scoreboardInference2Scores = { 6, 7, 8, 7, 7, 7, 7 };
 	auto scoreboardInference2Result = scoreboardInference2Solution.getMinProblemCount(scoreboardInference2Scores.size(), scoreboardInference2Scores);
 
 	// Meta Puzzle: Tunnel Time

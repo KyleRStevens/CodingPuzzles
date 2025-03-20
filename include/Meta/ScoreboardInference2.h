@@ -208,6 +208,7 @@ public:
 				{
 					// The counter doesn't actually need to be accurate - we just need to know if there are multiple DIFFERENT numbers with this remainder
 					remainder0Count++;
+					prevRemainder0Number = S[i];
 				}
 				break;
 
@@ -216,6 +217,7 @@ public:
 				{
 					// The counter doesn't actually need to be accurate - we just need to know if there are multiple DIFFERENT numbers with this remainder
 					remainder1Count++;
+					prevRemainder1Number = S[i];
 				}
 				break;
 
@@ -224,6 +226,7 @@ public:
 				{
 					// The counter doesn't actually need to be accurate - we just need to know if there are multiple DIFFERENT numbers with this remainder
 					remainder2Count++;
+					prevRemainder2Number = S[i];
 				}
 				break;
 
