@@ -234,11 +234,16 @@ int main()
 	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
 
 	// Meta Puzzle: Slippery Trip (passing 32/35 - 3 wrong answers...)
+	//std::vector<std::vector<char>> slipperyTripGrid{
+	//	{'>', '*', 'v', '*', '>', '*'},
+	//	{'*', 'v', '*', 'v', '>', '*'},
+	//	{'.', '*', '>', '.', '.', '*'},
+	//	{'.', '*', '.', '.', '*', 'v'}
+	//};
 	std::vector<std::vector<char>> slipperyTripGrid{
-		{'>', '*', 'v', '*', '>', '*'},
-		{'*', 'v', '*', 'v', '>', '*'},
-		{'.', '*', '>', '.', '.', '*'},
-		{'.', '*', '.', '.', '*', 'v'}
+		{'*', 'v', '>', '*'},
+		{'*', '*', '>', '.'},
+		{'*', '*', '>', '.'},
 	};
 	Solution_SlipperyTrip slipperyTripSolution;
 	auto slipperyTripResult = slipperyTripSolution.getMaxCollectableCoins(slipperyTripGrid);
