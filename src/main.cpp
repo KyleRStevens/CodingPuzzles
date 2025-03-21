@@ -216,7 +216,7 @@ int main()
 	std::vector<long long> tunnelTimeTunnelsB{ 2 };
 	auto tunnelTimeResult = tunnelTimeSolution.getSecondsElapsed(3, tunnelTimeTunnelsA, tunnelTimeTunnelsB, 1);
 
-	// Meta Puzzle: Boss Fight
+	// Meta Puzzle: Boss Fight (brute force approach passes 18/24 - 6 time limited)
 	Solution_BossFight bossFightSolution;
 	std::vector<int> bossFightWarriorHealth{ 1, 1, 2, 100 };
 	std::vector<int> bossFightWarriorDamage{ 1, 2, 1,   3 };
