@@ -38,6 +38,7 @@
 #include "ScoreboardInference2.h"
 #include "TunnelTime.h"
 #include "BossFight.h"
+#include "SlipperyTrip.h"
 
 int main()
 {
@@ -231,6 +232,16 @@ int main()
 	std::vector<int> rabbitHole2ListB{ 2, 3, 4, 5, 2 };	// Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
 	Solution_RabbitHole2v2 rabbitHole2Solution;
 	auto rabbitHole2Result = rabbitHole2Solution.getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
+
+	// Meta Puzzle: Slippery Trip (passing 32/35 - 3 wrong answers...)
+	std::vector<std::vector<char>> slipperyTripGrid{
+		{'>', '*', 'v', '*', '>', '*'},
+		{'*', 'v', '*', 'v', '>', '*'},
+		{'.', '*', '>', '.', '.', '*'},
+		{'.', '*', '.', '.', '*', 'v'}
+	};
+	Solution_SlipperyTrip slipperyTripSolution;
+	auto slipperyTripResult = slipperyTripSolution.getMaxCollectableCoins(slipperyTripGrid);
 
 	return 0;
 }

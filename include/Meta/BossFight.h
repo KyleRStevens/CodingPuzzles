@@ -33,8 +33,8 @@ private:
 		{
 			for (int j = i + 1; j < H.size(); ++j) // O(N)
 			{
-				Warrior recruit1{ H[i], D[i] };
-				Warrior recruit2{ H[j], D[j] };
+				Warrior recruit1{ static_cast<double>(H[i]), static_cast<double>(D[i]) };
+				Warrior recruit2{ static_cast<double>(H[j]), static_cast<double>(D[j]) };
 
 				// Recruit 1 in back
 				double option1 = ((recruit1.health + recruit2.health) * recruit1.damagePerSecond) + (recruit2.health * recruit2.damagePerSecond);
