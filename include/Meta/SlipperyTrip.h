@@ -109,8 +109,11 @@ private:
 		}
 		else if (aRightArrowExists && aDownArrowExists)
 		{
-			// There is a sideways path, account for possible wrapped sideways coins
-			rowInfo.numCoinsSidewaysCollectable = std::max(rowInfo.numCoinsSidewaysCollectable, currentSidewaysCoins + startSidewaysCoins);
+			// There is a sideways path, account for possible wrapped sideways coins (must end while collecting)
+			if (collecting)
+			{
+				rowInfo.numCoinsSidewaysCollectable = std::max(rowInfo.numCoinsSidewaysCollectable, currentSidewaysCoins + startSidewaysCoins);
+			}
 		}
 
 		// Return the gathered info
