@@ -65,6 +65,7 @@ private:
 				rowInfo.forcedLoop = false;
 				break;
 
+			case 'V':
 			case 'v':
 				// Flag that we have seen a down arrow
 				aDownArrowExists = true;

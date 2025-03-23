@@ -39,6 +39,7 @@
 #include "TunnelTime.h"
 #include "BossFight.h"
 #include "SlipperyTrip.h"
+#include "StackStabilization2.h"
 
 int main()
 {
@@ -136,10 +137,10 @@ int main()
 	Solution_RotaryLock2 rotaryLock2Solution;
 	auto rotaryLock2Result = rotaryLock2Solution.getMinCodeEntryTime(10, rotaryLock2Code.size(), rotaryLock2Code);
 
-	// Meta Puzzle: Scoreboard Inference (passing 28/35 - 7 wrong answers)
+	// Meta Puzzle: Scoreboard Inference 2 (passing 30/35 - 5 wrong answers)
 	Solution_ScoreboardInference2 scoreboardInference2Solution;
 	std::vector<int> scoreboardInference2Scores{};
-	bool generateAllTestsUpToSix = false;
+	bool generateAllTestsUpToSix = true;
 	if (generateAllTestsUpToSix)
 	{
 		for (int num6s = 0; num6s < 2; ++num6s)
@@ -241,12 +242,17 @@ int main()
 	//	{'.', '*', '.', '.', '*', 'v'}
 	//};
 	std::vector<std::vector<char>> slipperyTripGrid{
-		{'*', 'v', '>', '*'},
+		{'*', 'v', '*', '>'},
 		{'*', '*', '>', 'v'},
 		{'*', '*', '>', '.'},
 	};
 	Solution_SlipperyTrip slipperyTripSolution;
 	auto slipperyTripResult = slipperyTripSolution.getMaxCollectableCoins(slipperyTripGrid);
+
+	// Meta Puzzle: Stack Stabilization 2
+	std::vector<int> stackStabilization2Discs{ 2, 5, 3, 6, 5 };
+	Solution_StackStabilization2 stackStabilization2Solution;
+	auto stackStabilization2Result = stackStabilization2Solution.getMinimumSecondsRequired(stackStabilization2Discs, 1, 1);
 
 	return 0;
 }
