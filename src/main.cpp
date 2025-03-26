@@ -113,7 +113,7 @@ int main()
 	Solution_Hops hopsSolution;
 	auto hopsResult = hopsSolution.getSecondsRequired(6, hopsFrogs.size(), hopsFrogs);
 
-	// Meta Puzzle: Missing Mail
+	// Meta Puzzle: Missing Mail (passing 13/24 - 6 wrong answers, 5 time limited)
 	std::vector<int> missingMailValues{ 10, 2, 8, 6, 4 };
 	Solution_MissingMail missingMailSolution;
 	auto missingMailResult = missingMailSolution.getMaxExpectedProfit(missingMailValues, 3, 0.15);
@@ -127,7 +127,7 @@ int main()
 	Solution_Portals portalsSolution;
 	auto portalsResult = portalsSolution.getSecondsRequired(portalsGrid3);
 
-	// Meta Puzzle: Rabbit Hole (passing 6/18 - 11 time limited, 1 wrong answer)
+	// Meta Puzzle: Rabbit Hole (passing 4/18 - 9 time limited, 5 memory limited)
 	std::vector<int> rabbitHoleLinks{ 2, 4, 2, 2, 3 };
 	Solution_RabbitHole rabbitHoleSolution;
 	auto rabbitHoleResult = rabbitHoleSolution.getMaxVisitableWebpages(5, rabbitHoleLinks);
