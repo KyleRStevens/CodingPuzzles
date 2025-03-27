@@ -127,7 +127,7 @@ int main()
 	Solution_Portals portalsSolution;
 	auto portalsResult = portalsSolution.getSecondsRequired(portalsGrid3);
 
-	// Meta Puzzle: Rabbit Hole (passing 4/18 - 14 memory limited)
+	// Meta Puzzle: Rabbit Hole (passing 5/18 - 10 time limited, 3 memory limited)
 	std::vector<int> rabbitHoleLinks{ 2, 4, 2, 2, 3 };
 	Solution_RabbitHole rabbitHoleSolution;
 	auto rabbitHoleResult = rabbitHoleSolution.getMaxVisitableWebpages(5, rabbitHoleLinks);

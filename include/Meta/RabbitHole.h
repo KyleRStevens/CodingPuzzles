@@ -22,56 +22,129 @@ private:
 		bool visited = false;
 		bool queued = false;
 		int bestPathEndpoint = -1;
+		int bestPathNext = -1;
+		int maxVisitablePagesSize = 1;
 		std::set<int> fromLinks; // O(N) space
 		std::set<int> maxVisitablePages; // O(N) space - TODO: Instead of every page storing this, only save the next item on the best path unless the path contains a "self" (cycle), in which case that page can store the full path set from there
 	};
 
-public:
+private:
+	void SaveBestPath(std::vector<Page>& pages, const int startPage, std::set<int>& pathSet)
+	{
+		int page = startPage;
+
+		// Insert the self reference and move to the next
+		pathSet.insert(page);
+		page = pages[page].bestPathNext;
+
+		while (page != -1 && page != startPage)
+		{
+			// If we reached a page that has the saved path set, we can simply insert that whole set and return
+			if (pages[page].maxVisitablePages.size() != 0)
+			{
+				pathSet.insert(pages[page].maxVisitablePages.begin(), pages[page].maxVisitablePages.end());
+				return;
+			}
+
+			// Otherwise, insert the current page and move on to the next
+			pathSet.insert(page);
+			page = pages[page].bestPathNext;
+		}
+	}
+	
+	bool CheckBestPathForPage(std::vector<Page>& pages, const int startPage, const int targetPage)
+	{
+		int page = startPage;
+
+		while (page != -1)
+		{
+			// If we reached a page that has the saved path set, we can simply check if the set contains the target page
+			if (pages[page].maxVisitablePages.size() != 0)
+			{
+				if (pages[page].maxVisitablePages.find(targetPage) == pages[page].maxVisitablePages.end())
+				{
+					// The target page was NOT found to be in the path
+					return false;
+				}
+				else
+				{
+					// The target page WAS found to be in the path
+					return true;
+				}
+			}
+
+			// If the next page we'd be going to is the target page, we can just return true
+			if (pages[page].bestPathNext == targetPage)
+			{
+				// The target page WAS found to be in the path
+				return true;
+			}
+
+			// Otherwise, either move to the next page in the path (ends the search if we've reached the end of the path)
+			page = pages[page].bestPathNext;
+		}
+
+		// The target page was NOT found to be in the path
+		return false;
+	}
+
+	void DoUpdate(std::vector<Page>& pages, int page, int updaterPage)
+	{
+		// Set equal to the updater's set
+		//pages[page].maxVisitablePages = pages[updaterPage].maxVisitablePages;
+
+		// Add back in the self-reference
+		//pages[page].maxVisitablePages.insert(page);
+
+		// Mark the path of this best visit path - next
+		pages[page].bestPathNext = updaterPage;
+
+		// Mark the path of this best visit path - endpoint
+		if (pages[updaterPage].bestPathEndpoint != -1)
+		{
+			pages[page].bestPathEndpoint = pages[updaterPage].bestPathEndpoint;
+		}
+		else
+		{
+			pages[page].bestPathEndpoint = updaterPage;
+		}
+
+		// Update the maxVisitablePagesSize as long as the current path doesn't include this page itself
+		if (CheckBestPathForPage(pages, updaterPage, page))
+		{
+			// If the path DOES contain this page already, we'll save the whole path set to this page
+			//pages[page].maxVisitablePages.clear(); // ????
+			SaveBestPath(pages, page, pages[page].maxVisitablePages);
+
+			// ??
+			pages[page].maxVisitablePagesSize = static_cast<int>(pages[page].maxVisitablePages.size());
+		}
+		else
+		{
+			// If the path does NOT contain this page already, we'll update our path size
+			pages[page].maxVisitablePagesSize = pages[updaterPage].maxVisitablePagesSize + 1;
+		}
+	}
+
 	bool UpdateMaxVisitablePages(std::vector<Page>& pages, int page, int updaterPage)
 	{
 		// Check if we actually need to do an update...
 		bool maxVisitablePagesUpdated = false;
-		if (pages[updaterPage].maxVisitablePages.size() > pages[page].maxVisitablePages.size())
+		if (pages[updaterPage].maxVisitablePagesSize > pages[page].maxVisitablePagesSize)
 		{
-			// Set equal to the updater's set
-			pages[page].maxVisitablePages = pages[updaterPage].maxVisitablePages;
-
-			// Add back in the self-reference
-			pages[page].maxVisitablePages.insert(page);
-
-			// Mark the path of this best visit path
-			if (pages[updaterPage].bestPathEndpoint != -1)
-			{
-				pages[page].bestPathEndpoint = pages[updaterPage].bestPathEndpoint;
-			}
-			else
-			{
-				pages[page].bestPathEndpoint = updaterPage;
-			}
+			// Do the update
+			DoUpdate(pages, page, updaterPage);
 
 			// Flag the update
 			maxVisitablePagesUpdated = true;
 		}
-		else if (pages[updaterPage].maxVisitablePages.size() == pages[page].maxVisitablePages.size())
+		else if (pages[updaterPage].maxVisitablePagesSize == pages[page].maxVisitablePagesSize)
 		{
 			// If it's the same size, but does NOT constain THIS page, then it will be bigger, so lets do the update
-			if (pages[updaterPage].maxVisitablePages.find(page) == pages[updaterPage].maxVisitablePages.end())
+			if (CheckBestPathForPage(pages, updaterPage, page) == false)
 			{
-				// Set equal to the updater's set
-				pages[page].maxVisitablePages = pages[updaterPage].maxVisitablePages;
-
-				// Add back in the self-reference
-				pages[page].maxVisitablePages.insert(page);
-
-				// Mark the path of this best visit path
-				if (pages[updaterPage].bestPathEndpoint != -1)
-				{
-					pages[page].bestPathEndpoint = pages[updaterPage].bestPathEndpoint;
-				}
-				else
-				{
-					pages[page].bestPathEndpoint = updaterPage;
-				}
+				// Do the update
+				DoUpdate(pages, page, updaterPage);
 
 				// Flag the update
 				maxVisitablePagesUpdated = true;
@@ -81,13 +154,14 @@ public:
 		// Update the global max visitable pages size if necessary
 		if (maxVisitablePagesUpdated)
 		{
-			m_maxVisitableWebpages = std::max(m_maxVisitableWebpages, static_cast<int>(pages[page].maxVisitablePages.size()));
+			m_maxVisitableWebpages = std::max(m_maxVisitableWebpages, pages[page].maxVisitablePagesSize);
 		}
 
 		// Return if there was an update or not
 		return maxVisitablePagesUpdated;
 	}
 
+public:
 	int getMaxVisitableWebpages(int N, std::vector<int>& L) // ~O(N* L)
 	{
 		// Create a container for the page data
@@ -95,21 +169,14 @@ public:
 		pages.resize(N + 1); // O(N)
 
 		// Build out the whole graph
-		for (int i = 0; i < L.size(); ++i) // O(L) => ~O(N*L)
+		for (int i = 0; i < L.size(); ++i) // O(L) => O(L*logN)
 		{
 			int fromPage = i + 1;
 			int toPage = L[i];
 
 			// Add the "from" link in the "to" page
-			pages[toPage].fromLinks.insert(fromPage); // At least O(logN)
-
-			// Update the from page's maxVisitablePages based on the toPage?
-			//bool maxVisitablePagesUpdated = UpdateMaxVisitablePages(pages, fromPage, toPage);
+			pages[toPage].fromLinks.insert(fromPage); // O(logN)
 		}
-
-		// An array of "visited" flags (for each page)
-		//std::vector<bool> visited;
-		//visited.resize(N + 1, false); // O(N)
 
 		// A queue for the "recursive" updating
 		std::queue<int> pagesToUpdate;
