@@ -20,9 +20,10 @@ private:
 	struct Page
 	{
 		bool visited = false;
-		//int bestPath = -1; // TODO
+		bool queued = false;
+		int bestPathEndpoint = -1;
 		std::set<int> fromLinks; // O(N) space
-		std::set<int> maxVisitablePages; // O(N) space
+		std::set<int> maxVisitablePages; // O(N) space - TODO: Instead of every page storing this, only save the next item on the best path unless the path contains a "self" (cycle), in which case that page can store the full path set from there
 	};
 
 public:
@@ -39,7 +40,14 @@ public:
 			pages[page].maxVisitablePages.insert(page);
 
 			// Mark the path of this best visit path
-			//pages[page].bestPath = updaterPage;
+			if (pages[updaterPage].bestPathEndpoint != -1)
+			{
+				pages[page].bestPathEndpoint = pages[updaterPage].bestPathEndpoint;
+			}
+			else
+			{
+				pages[page].bestPathEndpoint = updaterPage;
+			}
 
 			// Flag the update
 			maxVisitablePagesUpdated = true;
@@ -56,7 +64,14 @@ public:
 				pages[page].maxVisitablePages.insert(page);
 
 				// Mark the path of this best visit path
-				//pages[page].bestPath = updaterPage;
+				if (pages[updaterPage].bestPathEndpoint != -1)
+				{
+					pages[page].bestPathEndpoint = pages[updaterPage].bestPathEndpoint;
+				}
+				else
+				{
+					pages[page].bestPathEndpoint = updaterPage;
+				}
 
 				// Flag the update
 				maxVisitablePagesUpdated = true;
@@ -102,24 +117,19 @@ public:
 		// For each page...
 		for (int i = 1; i < pages.size(); ++i) // O(N) ==> Somewhere between O(N) & O(N^3)?
 		{
-			// TODO
-			// Rather than starting at this page, traverse the graph as far as you can using either the saved best path if possible or else any random path (starting at the end of a path reduces revisits)
-			//std::set<int> tempVisited;
-			//int tempPage = i;
-			//while (pages[tempPage].bestPath != -1 && !tempVisited.contains(bestPath))
-			//{
-			//
-			//}
-			//while (fromLinks != empty)
-			//{
-			//
-			//}
+			// Rather than starting at this page, start at the best (known) path's endpoint as starting from the end will result in less revisits during the recursive updating
+			int startPage = i;
+			if (pages[i].bestPathEndpoint != -1)
+			{
+				startPage = pages[i].bestPathEndpoint;
+			}
 
 			// If the page is NOT flagged as visited...
-			if (pages[i].visited == false)
+			if (pages[startPage].visited == false)
 			{
 				// Add the current start page to the queue
-				pagesToUpdate.push(i);
+				pagesToUpdate.push(startPage);
+				pages[startPage].queued = true;
 				
 				// Recursively update each "from" page's maxVisitablePages based on the current page
 				while (pagesToUpdate.empty() == false) // O(N) ==> O(N^2) worst case, O(N+) average?
@@ -127,6 +137,7 @@ public:
 					// Get the current page and remove from the queue
 					int currentPage = pagesToUpdate.front();
 					pagesToUpdate.pop();
+					pages[currentPage].queued = false;
 
 					// If the page isn't already visited...
 					if (pages[currentPage].visited == false)
@@ -141,10 +152,11 @@ public:
 							if (UpdateMaxVisitablePages(pages, page, currentPage))
 							{
 								// Only if the page has already been visited do we queue it to be visited again - if it hasn't been visited, it already will be! No need to keep queuing it redundent times as who knows how many other nodes will also try to do the same...
-								if (pages[page].visited == true)
+								if (pages[page].queued == false)
 								{
 									// If so, it might need to update on of its "from" pages, so add it to the queue
 									pagesToUpdate.push(page);
+									pages[page].queued = true;
 
 									// Mark it as not visited even if it has been so we can re-update its connections if necessary
 									pages[page].visited = false;
