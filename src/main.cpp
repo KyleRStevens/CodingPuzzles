@@ -20,6 +20,7 @@
 #include "TwoSum.h"
 #include "AddTwoNumbers.h"
 #include "LongestSubstringWithoutRepeatingCharacters.h"
+#include "MedianOfTwoSortedArrays.h"
 
 // 1st Party - Meta Puzzles Stuff
 #include "Cafeteria.h"
@@ -70,6 +71,10 @@ int main()
 	// LeetCode #3: Longest Substring Without Repeating Characters
 	Solution_LongestSubstringWithoutRepeatingCharacters longestSubstringWithoutRepeatingCharactersSolution;
 	longestSubstringWithoutRepeatingCharactersSolution.Test();
+
+	// LeetCode #4: Median Of Two Sorted Arrays
+	Solution_MedianOfTwoSortedArrays medianOfTwoSortedArraysSolution;
+	medianOfTwoSortedArraysSolution.Test();
 
 
 	/***********************
