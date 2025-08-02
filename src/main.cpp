@@ -19,6 +19,7 @@
 // 1st Party - LeetCode Stuff
 #include "TwoSum.h"
 #include "AddTwoNumbers.h"
+#include "LongestSubstringWithoutRepeatingCharacters.h"
 
 // 1st Party - Meta Puzzles Stuff
 #include "Cafeteria.h"
@@ -65,6 +66,10 @@ int main()
 	// LeetCode #2: Add Two Numbers
 	Solution_AddTwoNumbers addTwoNumbersSolution;
 	addTwoNumbersSolution.Test();
+
+	// LeetCode #3: Longest Substring Without Repeating Characters
+	Solution_LongestSubstringWithoutRepeatingCharacters longestSubstringWithoutRepeatingCharactersSolution;
+	longestSubstringWithoutRepeatingCharactersSolution.Test();
 
 
 	/***********************

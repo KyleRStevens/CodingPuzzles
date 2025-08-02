@@ -27,7 +27,7 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} ) # Same but for specified co
     set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_CURRENT_LIST_DIR}/bin/${OUTPUTCONFIGLOWER} )
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
-# Laxy file inclusion (not recommended for serious projects)
+# Lazy file inclusion (not recommended for serious projects)
 file(GLOB HEADER_FILES_LEETCODE_GLOB "include/LeetCode/*.h")
 file(GLOB HEADER_FILES_META_GLOB "include/Meta/*.h")
 file(GLOB HEADER_FILES_MYSTUFF_GLOB "include/MyStuff/*.h")
