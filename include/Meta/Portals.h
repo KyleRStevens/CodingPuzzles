@@ -12,6 +12,7 @@
 #include <vector>
 #include <queue>
 
+// Meta Puzzle: Portals
 class Solution_Portals
 {
 private:
@@ -146,5 +147,15 @@ public:
 
         // No exit found, return -1
         return -1;
+    }
+
+    void Test()
+    {
+        std::vector<std::vector<char>> portalsGrid3{
+            {'a', 'S', '.', 'b'},
+            {'#', '#', '#', '#'},
+            {'E', 'b', '.', 'a'}
+        };
+        auto portalsResult = getSecondsRequired(portalsGrid3);
     }
 };

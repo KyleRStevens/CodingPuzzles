@@ -10,6 +10,7 @@
 #include <map>
 #include <mutex>
 
+// Meta Puzzle: Kaitenzushi
 class Solution_Kaitenzushi
 {
 public:
@@ -128,5 +129,11 @@ public:
 
 		// Return how many dishes were eaten
 		return numDishesEaten;
+	}
+
+	void Test()
+	{
+		std::vector<int> kaitenzushiDishes{ 1, 2, 3, 3, 2, 1 };
+		auto kaitenzushiResult = getMaximumEatenDishCount(kaitenzushiDishes.size(), kaitenzushiDishes, 2);
 	}
 };

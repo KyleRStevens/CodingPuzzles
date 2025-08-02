@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <vector>
 
+// Meta Puzzle: Rabbit Hole
 class Solution_RabbitHole
 {
 private:
@@ -237,5 +238,11 @@ public:
 
 		// Return
 		return m_maxVisitableWebpages;
+	}
+
+	void Test()
+	{
+		std::vector<int> rabbitHoleLinks{ 2, 4, 2, 2, 3 };
+		auto rabbitHoleResult = getMaxVisitableWebpages(5, rabbitHoleLinks);
 	}
 };

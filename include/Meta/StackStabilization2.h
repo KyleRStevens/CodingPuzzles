@@ -10,6 +10,7 @@
 #include <map>
 #include <mutex>
 
+// Meta Puzzle: Stack Stabilization 2
 class Solution_StackStabilization2
 {
 private:
@@ -58,5 +59,11 @@ public:
 
 		// Return the deflate counter
 		return secondsRequired;
+	}
+
+	void Test()
+	{
+		std::vector<int> stackStabilization2Discs{ 2, 5, 3, 6, 5 };
+		auto stackStabilization2Result = getMinimumSecondsRequired(stackStabilization2Discs, 1, 1);
 	}
 };

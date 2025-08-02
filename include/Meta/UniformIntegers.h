@@ -10,6 +10,7 @@
 #include <map>
 #include <mutex>
 
+// Meta Puzzle: Uniform Integers
 class Solution_UniformIntegers
 {
 public:
@@ -163,5 +164,10 @@ public:
 
 		// Return the sum of all the uniform section counts
 		return uniformsInEdgeMagnitudes + uniformsBetween;
+	}
+
+	void Test()
+	{
+		auto uniformIntegersResult = getUniformIntegerCountInInterval(1, 888'888'888'887); // Max: 1'000'000'000'000
 	}
 };

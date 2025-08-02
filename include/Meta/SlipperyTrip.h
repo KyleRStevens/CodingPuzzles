@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <vector>
 
+// Meta Puzzle: Slippery Trip
 class Solution_SlipperyTrip
 {
 private:
@@ -170,5 +171,21 @@ public:
 
 		// Return either the coins collected if continuing to the end, OR the max found if chosen to stop in a row and loop forever (whichever is more)
 		return std::max(coinsCollected, maxCoinsIfLooping);
+	}
+
+	void Test()
+	{
+		//std::vector<std::vector<char>> slipperyTripGrid{
+		//	{'>', '*', 'v', '*', '>', '*'},
+		//	{'*', 'v', '*', 'v', '>', '*'},
+		//	{'.', '*', '>', '.', '.', '*'},
+		//	{'.', '*', '.', '.', '*', 'v'}
+		//};
+		std::vector<std::vector<char>> slipperyTripGrid{
+			{'*', 'v', '*', '>'},
+			{'*', '*', '>', 'v'},
+			{'*', '*', '>', '.'},
+		};
+		auto slipperyTripResult = getMaxCollectableCoins(slipperyTripGrid);
 	}
 };

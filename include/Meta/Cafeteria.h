@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <vector>
 
+// Meta Puzzle: Cafeteria
 class Solution_Cafeteria
 {
 public:
@@ -75,5 +76,11 @@ public:
 
         // Return the calculated amount
         return maxAdditionalSitters;
+    }
+
+    void Test()
+    {
+        std::vector<long long> cafeteriaOccupiedSeats{ 2, 6 };
+        auto cafeteriaResult = getMaxAdditionalDinersCount(10, 1, cafeteriaOccupiedSeats.size(), cafeteriaOccupiedSeats);
     }
 };

@@ -19,6 +19,8 @@
 #include <pthread.h>
 #endif
 constexpr int MAX_THREADS = 16;
+
+// Meta Puzzle: Rabbit Hole 2
 class Solution_RabbitHole2v2
 {
 public:
@@ -223,5 +225,16 @@ public:
 
 		// Return the found maximum
 		return m_maxPages;
+	}
+
+	void Test()
+	{
+		//std::vector<int> rabbitHole2ListA{ 3, 2, 5, 9, 10, 3, 3, 9, 4 };
+		//std::vector<int> rabbitHole2ListB{ 9, 5, 7, 8,  6, 4, 5, 3, 9 };
+		//std::vector<int> rabbitHole2ListA{ 1, 2, 2, 4 }; // Bug 1 (fixed)
+		//std::vector<int> rabbitHole2ListB{ 2, 1, 3, 2 }; // Bug 1 (fixed)
+		std::vector<int> rabbitHole2ListA{ 1, 2, 3, 3, 4 }; // Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
+		std::vector<int> rabbitHole2ListB{ 2, 3, 4, 5, 2 };	// Bug #2 (expected: 5, Result: 4, Reason: Must use same link twice...)
+		auto rabbitHole2Result = getMaxVisitableWebpages(5, rabbitHole2ListA.size(), rabbitHole2ListA, rabbitHole2ListB);
 	}
 };

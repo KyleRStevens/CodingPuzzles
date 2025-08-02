@@ -14,6 +14,7 @@
 // 1st Party
 #include "MyMinHeap.h"
 
+// Meta Puzzle: Hops
 class Solution_Hops
 {
 public:
@@ -32,5 +33,11 @@ public:
 
 		// The answer will always be N - minFrogIndex
 		return N - minFrogIndex;
+	}
+
+	void Test()
+	{
+		std::vector<long long> hopsFrogs{ 5, 2, 4 };
+		auto hopsResult = getSecondsRequired(6, hopsFrogs.size(), hopsFrogs);
 	}
 };

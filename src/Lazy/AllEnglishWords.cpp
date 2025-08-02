@@ -56,3 +56,73 @@ AllEnglishWords::AllEnglishWords()
         Insert(word);
     }
 }
+
+void AllEnglishWords::Test()
+{
+    // Painting 1
+    /*std::string letter1 = "ptlsmwbc";
+    std::string letter2 = "rtaeiouh";
+    std::string letter3 = "oivlrnts";
+    std::string letter4 = "adthsikv";
+    std::string letter5 = "onlrcsae";
+    std::string letter6 = "dgrwteyn";*/
+
+    // Painting 2
+    /*std::string letter1 = "pfrlhcsv";
+    std::string letter2 = "iouhlrae";
+    std::string letter3 = "gaocmtrp";
+    std::string letter4 = "dleiustr";
+    std::string letter5 = "iutrlhae";
+    std::string letter6 = "ltnraezh";
+    std::string letter7 = "dernysgh";*/
+
+    // Painting 3
+    std::string letter1 = "mnrtdghl";
+    std::string letter2 = "hryaeiou";
+    std::string letter3 = "nsomrauf";
+    std::string letter4 = "eioupgta";
+    std::string letter5 = "lnorstcg";
+    std::string letter6 = "aeiohnlt";
+    std::string letter7 = "cedstolu";
+    std::string letter8 = "tyhesnrk";
+
+    for (int i1 = 0; i1 < letter1.size(); ++i1)
+    {
+        for (int i2 = 0; i2 < letter2.size(); ++i2)
+        {
+            for (int i3 = 0; i3 < letter3.size(); ++i3)
+            {
+                for (int i4 = 0; i4 < letter4.size(); ++i4)
+                {
+                    for (int i5 = 0; i5 < letter5.size(); ++i5)
+                    {
+                        for (int i6 = 0; i6 < letter6.size(); ++i6)
+                        {
+                            for (int i7 = 0; i7 < letter7.size(); ++i7)
+                            {
+                                for (int i8 = 0; i8 < letter8.size(); ++i8)
+                                {
+                                    std::string testWord = {
+                                        letter1[i1]
+                                        , letter2[i2]
+                                        , letter3[i3]
+                                        , letter4[i4]
+                                        , letter5[i5]
+                                        , letter6[i6]
+                                        , letter7[i7]
+                                        , letter8[i8]
+                                    };
+
+                                    if (Find(testWord))
+                                    {
+                                        std::cout << /*"Possible word: " << */testWord << std::endl;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

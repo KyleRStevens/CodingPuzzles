@@ -11,12 +11,13 @@
 #include <unordered_set>
 #include <vector>
 
+// Meta Puzzle: Tunnel Time
 class Solution_TunnelTime
 {
 private:
     struct Tunnel
     {
-        long long length() { return trueEndPosition - trueStartPosition; }
+        long long length() const { return trueEndPosition - trueStartPosition; }
 
         long long trueStartPosition = -1;
         long long trueEndPosition = -1;
@@ -117,5 +118,12 @@ public:
 
         // Return the total driving time required to reach the desired tunnel time
         return secondsElapsed;
+    }
+
+    void Test()
+    {
+        std::vector<long long> tunnelTimeTunnelsA{ 1 };
+        std::vector<long long> tunnelTimeTunnelsB{ 2 };
+        auto tunnelTimeResult = getSecondsElapsed(3, tunnelTimeTunnelsA, tunnelTimeTunnelsB, 1);
     }
 };

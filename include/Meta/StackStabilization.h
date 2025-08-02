@@ -10,6 +10,7 @@
 #include <map>
 #include <mutex>
 
+// Meta Puzzle: Stack Stabilization
 class Solution_StackStabilization
 {
 public:
@@ -40,5 +41,11 @@ public:
 
 		// Return the deflate counter
 		return numDiscsDeflated;
+	}
+
+	void Test()
+	{
+		std::vector<int> stackStabilizationDiscs{ 6, 5, 4, 3 };
+		auto stackStabilizationResult = getMinimumDeflatedDiscCount(stackStabilizationDiscs.size(), stackStabilizationDiscs);
 	}
 };

@@ -10,6 +10,7 @@
 #include <map>
 #include <mutex>
 
+// Meta Puzzle: Rotary Lock
 class Solution_RotaryLock
 {
 public:
@@ -39,5 +40,11 @@ public:
 
 		// Return min total min time
 		return minCodeEntryTime;
+	}
+
+	void Test()
+	{
+		std::vector<int> rotaryLockCode{ 9, 4, 4, 8 };
+		auto rotaryLockResult = getMinCodeEntryTime(10, rotaryLockCode.size(), rotaryLockCode);
 	}
 };

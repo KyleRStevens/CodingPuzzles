@@ -9,6 +9,7 @@ struct ListNode
     ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
+// LeetCode #2: Add Two Numbers
 class Solution_AddTwoNumbers
 {
 public:
@@ -77,5 +78,17 @@ public:
 
         // Return
         return pAnswer;
+    }
+
+    void Test()
+    {
+        std::vector<ListNode> addTwoNumbersNumber1{ 2, 4, 3 };
+        std::vector<ListNode> addTwoNumbersNumber2{ 5, 6, 4 };
+        for (int i = 0; i < 2; ++i)
+        {
+            addTwoNumbersNumber1[i].next = &addTwoNumbersNumber1[i + 1];
+            addTwoNumbersNumber2[i].next = &addTwoNumbersNumber2[i + 1];
+        }
+        auto addTwoNumbersResult = addTwoNumbers(&addTwoNumbersNumber1[0], &addTwoNumbersNumber2[0]);
     }
 };

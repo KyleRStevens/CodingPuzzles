@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 
+// LeetCode #1: Two Sum
 class Solution_TwoSum
 {
 public:
@@ -127,5 +128,12 @@ public:
 
         // Should not occur...
         return { 0, 0 };
+    }
+
+    void Test()
+    {
+        std::vector<int> twoSumTestCase{ 2,7,11,15 };
+        int twoSumTarget = 9;
+        auto twoSumResult = twoSum(twoSumTestCase, twoSumTarget);
     }
 };

@@ -11,12 +11,13 @@
 #include <unordered_set>
 #include <vector>
 
+// Meta Puzzle: Boss Fight
 class Solution_BossFight
 {
 private:
 	struct Warrior
 	{
-		double multiplier() { return health * damagePerSecond; }
+		double multiplier() const { return health * damagePerSecond; }
 
 		double health = 0;
 		double damagePerSecond = 0;
@@ -326,5 +327,12 @@ public:
 
 		// Return the best possible outcome
 		return maxDamageDealt;
+	}
+
+	void Test()
+	{
+		std::vector<int> bossFightWarriorHealth{ 1, 1, 2, 100 };
+		std::vector<int> bossFightWarriorDamage{ 1, 2, 1,   3 };
+		auto bossFightResult = getMaxDamageDealt(bossFightWarriorHealth, bossFightWarriorDamage, 8);
 	}
 };

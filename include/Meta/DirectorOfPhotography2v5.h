@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <vector>
 
+// Meta Puzzle: Director of Photography 2
 class Solution_DirectorOfPhotography2v5
 {
 public:
@@ -97,5 +98,11 @@ public:
 
         // Return the number of artistic photos found
         return artisticPhotoCount;
+    }
+
+    void Test()
+    {
+        std::string directorOfPhotography2Cells = "B...A...P.....P";
+        auto directorOfPhotography2Result = getArtisticPhotographCount(directorOfPhotography2Cells.size(), directorOfPhotography2Cells, 1, 300'000);
     }
 };

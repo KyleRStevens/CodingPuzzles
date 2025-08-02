@@ -14,6 +14,7 @@
 // 1st Party
 #include "MyMinHeap.h"
 
+// Meta Puzzle: Missing Mail
 class Solution_MissingMail
 {
 private:
@@ -112,5 +113,11 @@ public:
 
 		// Return the summed max profit
 		return currentProfit;
+	}
+
+	void Test()
+	{
+		std::vector<int> missingMailValues{ 10, 2, 8, 6, 4 };
+		auto missingMailResult = getMaxExpectedProfit(missingMailValues, 3, 0.15);
 	}
 };

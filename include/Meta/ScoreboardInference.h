@@ -10,6 +10,7 @@
 #include <map>
 #include <mutex>
 
+// Meta Puzzle: Scoreboard Inference
 class Solution_ScoreboardInference
 {
 public:
@@ -48,5 +49,11 @@ public:
 
 		// Return the inferred min problem count
 		return minProblemCount;
+	}
+
+	void Test()
+	{
+		std::vector<int> scoreboardInferenceScores{ 2, 4, 6, 8 };
+		auto scoreboardInferenceResult = getMinProblemCount(scoreboardInferenceScores.size(), scoreboardInferenceScores);
 	}
 };
