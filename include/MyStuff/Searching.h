@@ -130,7 +130,7 @@ BreadthFirstSearchHelper(Node<T>* pNode, const T& target, std::set<Node<T>*>& vi
     else
     {
         // Should not get hit...
-        int x = 5;
+        std::cerr << "-e- This should not get hit..." << std::endl;
     }
 
     return result;

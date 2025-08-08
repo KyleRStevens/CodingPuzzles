@@ -134,19 +134,17 @@ MergeSort(std::vector<T>& list)
 				}
 			}
 
-			// Copy any remaining elements from the left sub-list
+			// Copy any remaining elements from the incomplete sub-list (only one should ever be incomplete - never both)
 			if (iLeft < LEFT_OUT_OF_BOUNDS_INDEX)
 			{
 				std::copy(list.begin() + iLeft, list.begin() + LEFT_OUT_OF_BOUNDS_INDEX, std::back_inserter(mergedList));
 			}
-
-			// Copy any remaining elements from the right sub-list
-			if (iRight < RIGHT_OUT_OF_BOUNDS_INDEX)
+			else if (iRight < RIGHT_OUT_OF_BOUNDS_INDEX)
 			{
 				std::copy(list.begin() + iRight, list.begin() + RIGHT_OUT_OF_BOUNDS_INDEX, std::back_inserter(mergedList));
 			}
 
-			// Copy the merged list back into the original list
+			// Copy the merged list back into the original list (TODO: It'd be better to not copy, but then merge from this new list back into the original in the next pass...)
 			std::copy(mergedList.begin(), mergedList.end(), list.begin() + LEFT_OFFSET);
 
 			// Clear the merged list for reuse

@@ -21,6 +21,8 @@
 #include "AddTwoNumbers.h"
 #include "LongestSubstringWithoutRepeatingCharacters.h"
 #include "MedianOfTwoSortedArrays.h"
+#include "LongestPalindromicSubstring.h"
+#include "LetterCombinationsOfAPhoneNumber.h"
 
 // 1st Party - Meta Puzzles Stuff
 #include "Cafeteria.h"
@@ -75,6 +77,14 @@ int main()
 	// LeetCode #4: Median Of Two Sorted Arrays
 	Solution_MedianOfTwoSortedArrays medianOfTwoSortedArraysSolution;
 	medianOfTwoSortedArraysSolution.Test();
+
+	// LeetCode #5: Longest Palindromic Substring
+	Solution_LongestPalindromicSubstring longestPalindromicSubstringSolution;
+	longestPalindromicSubstringSolution.Test();
+
+	// LeetCode #17: Letter Combinations Of A Phone Number
+	Solution_LetterCombinationsOfAPhoneNumber letterCombinationsOfAPhoneNumberSolution;
+	letterCombinationsOfAPhoneNumberSolution.Test();
 
 
 	/***********************
