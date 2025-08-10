@@ -22,7 +22,9 @@
 #include "LongestSubstringWithoutRepeatingCharacters.h"
 #include "MedianOfTwoSortedArrays.h"
 #include "LongestPalindromicSubstring.h"
+#include "ZigzagConversion.h"
 #include "LetterCombinationsOfAPhoneNumber.h"
+#include "FourSum.h"
 
 // 1st Party - Meta Puzzles Stuff
 #include "Cafeteria.h"
@@ -82,9 +84,17 @@ int main()
 	Solution_LongestPalindromicSubstring longestPalindromicSubstringSolution;
 	longestPalindromicSubstringSolution.Test();
 
+	// LeetCode #6: Zigzag Conversion
+	Solution_ZigzagConversion zigzagConversionSolution;
+	zigzagConversionSolution.Test();
+
 	// LeetCode #17: Letter Combinations Of A Phone Number
 	Solution_LetterCombinationsOfAPhoneNumber letterCombinationsOfAPhoneNumberSolution;
 	letterCombinationsOfAPhoneNumberSolution.Test();
+
+	// LeetCode #18: Four Sum
+	Solution_FourSum fourSumSolution;
+	fourSumSolution.Test();
 
 
 	/***********************
